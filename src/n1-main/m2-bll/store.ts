@@ -15,7 +15,3 @@ export type AppRootStateType = ReturnType<typeof RootReducer>;
 export const store = createStore(RootReducer,applyMiddleware(thunkMiddleware));
 // @ts-ignore
 window.store = store;
-
-
-//test  fghhhh
-//sec Alex
