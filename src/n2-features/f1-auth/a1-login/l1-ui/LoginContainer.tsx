@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import {Login} from "./Login";
 
-type LoginContainerPropsType = {
-
-}
+type LoginContainerPropsType = {}
 
 export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() => {
 
@@ -12,6 +10,7 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
     const [remember, setRemember] = useState<boolean>(false);
 
     return (
-        <Login email={email} password={password} checked={remember}/>
+        <Login email={email} setEmail={setEmail} password={password} setPassword={setPassword} checked={remember}
+               setChecked={setRemember}/>
     );
 });

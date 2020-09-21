@@ -4,12 +4,15 @@ import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
 
 type LoginPropsType = {
     email: string;
+    setEmail: (value: string) => void;
     password: string;
+    setPassword: (value: string) => void;
     checked: boolean;
+    setChecked: (value: boolean) => void;
 }
 
 export const Login: React.FC<LoginPropsType> = React.memo((props) => {
-    const {email, password, checked} = props;
+    const {email, password, checked, setEmail, setPassword, setChecked} = props;
 
     return (
         <div style={{
@@ -23,15 +26,18 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
         }}>
             <h2>Login</h2>
             <div>
-                <input type="text" placeholder={'enter you email'} value={email}/>
+                <input type="text" placeholder={'enter you email'} value={email}
+                       onChange={(e) => setEmail(e.currentTarget.value)}/>
             </div>
             <div>
-                <input type="text" placeholder={'enter you password'} value={password}/>
+                <input type="text" placeholder={'enter you password'} value={password}
+                       onChange={(e) => setPassword(e.currentTarget.value)}/>
             </div>
             <div>
                 <label>
                     Remember Me
-                    <input type="checkbox" name="check" checked={checked}/>
+                    <input type="checkbox" name="check" checked={checked}
+                           onChange={(e) => setChecked(e.currentTarget.checked)}/>
                 </label>
             </div>
             <div>
