@@ -26,7 +26,6 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
             justifyContent: "center",
             alignItems: 'center'
         }}>
-            <h2>Login</h2>
             <div>
                 <input type="text" placeholder={'enter you email'} value={email}
                        onChange={(e) => setEmail(e.currentTarget.value)}/>

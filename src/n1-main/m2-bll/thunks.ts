@@ -2,10 +2,12 @@ import {loginReducerActions} from "../../n2-features/f1-auth/a1-login/l2-bll/log
 import {ThunkAction} from "redux-thunk";
 import {AppRootStateType} from "./store";
 import {registerReducerActions} from "../../n2-features/f1-auth/a2-register/p2-bll/registerActions";
+import {mainReducerActions} from "./b1-main/mainActions";
 
 export type SWActionType =
     | loginReducerActions
     | registerReducerActions
+    | mainReducerActions;
 // and add other reducers Actions;
 
 export type ThunkType = ThunkAction<void, AppRootStateType, unknown, SWActionType>;
