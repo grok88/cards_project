@@ -11,6 +11,7 @@ export const loginTC = (data: LoginDataType): ThunkType => {
         LoginAPI.login(data)
             .then(res => {
                 dispatch(loginIn());
+                debugger
             })
             .catch(e => {
                 console.log(e.name)

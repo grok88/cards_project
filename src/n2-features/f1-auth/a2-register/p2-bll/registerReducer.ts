@@ -1,13 +1,14 @@
 import {registerInitialState} from "./registerInitialState";
-import {REGISTER, registerReducerActions} from "./registerActions";
+import {REGISTER_IN, registerReducerActions} from "./registerActions";
 
 
 
 export const registerReducer = (state = registerInitialState, action: registerReducerActions) => {
     switch (action.type) {
-        case REGISTER: { // blank
+        case REGISTER_IN: { // blank
             return {
                 ...state,
+                isRegisterIn:true
 
             }
         }
