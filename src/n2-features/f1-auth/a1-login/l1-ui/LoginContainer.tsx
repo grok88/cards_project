@@ -21,6 +21,7 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
     const [email, setEmail] = useState<string>('grok88@tut.by');
     const [password, setPassword] = useState<string>('alexgor88');
     const [remember, setRemember] = useState<boolean>(false);
+    const [flag, setFlag] = useState<boolean>(false);
 
     const onLogin = useCallback(() => {
         dispatch(loginTC({email, password, rememberMe: remember}));
@@ -28,8 +29,15 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
 
 
     if (isLoginIn) {
+        setTimeout(() => {
+            setFlag(true)
+        }, 2000)
+
+    }
+    if (flag) {
         return <Redirect to={PATH.PROFILE}/>
     }
+
     return (
         <div style={{
             width: '40%',

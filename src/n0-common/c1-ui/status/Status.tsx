@@ -13,7 +13,8 @@ export const Status: React.FC<StatusBlockPropsType> = (props) => {
     return (
         <div>
             <h2>{title}</h2>
-            {status === 'failed' ? <div style={{color:'red'}}>{error}</div> : null}
+            {status === 'failed' ? <div style={{color:'red'}}>{error}</div> :
+                status === 'succeeded' ? <div style={{color:'green'}}>success</div> : null}
         </div>
     );
 }

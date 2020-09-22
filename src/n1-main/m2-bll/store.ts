@@ -3,6 +3,7 @@ import thunkMiddleware from "redux-thunk"
 import {loginReducer} from "../../n2-features/f1-auth/a1-login/l2-bll/loginReducer";
 import {registerReducer} from "../../n2-features/f1-auth/a2-register/p2-bll/registerReducer";
 import {mainReducer} from "./b1-main/mainReducer";
+import {profileReducer} from "../../n2-features/f1-auth/a5-profile/p2-bll/profileReducer";
 
 
 const RootReducer = combineReducers({
@@ -11,7 +12,7 @@ const RootReducer = combineReducers({
     main: mainReducer,
     // restorePass:restorePassReducer,
     // setPass :setPassReducer,
-    // profile:profileReducer
+    profile: profileReducer
 });
 
 export type AppRootStateType = ReturnType<typeof RootReducer>;
