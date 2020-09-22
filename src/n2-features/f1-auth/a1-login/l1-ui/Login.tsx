@@ -9,10 +9,12 @@ type LoginPropsType = {
     setPassword: (value: string) => void;
     checked: boolean;
     setChecked: (value: boolean) => void;
+    onLogin:() => void;
 }
 
 export const Login: React.FC<LoginPropsType> = React.memo((props) => {
-    const {email, password, checked, setEmail, setPassword, setChecked} = props;
+
+    const {email, password, checked, setEmail, setPassword, setChecked, onLogin} = props;
 
     return (
         <div style={{
@@ -43,7 +45,7 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
             <div>
                 <NavLink to={PATH.RESTORE}>Востановить пароль?</NavLink>
             </div>
-            <button>Sign in</button>
+            <button onClick={onLogin}>Sign in</button>
             <div>
                 <NavLink to={PATH.REGISTER}>Регистрация</NavLink>
             </div>

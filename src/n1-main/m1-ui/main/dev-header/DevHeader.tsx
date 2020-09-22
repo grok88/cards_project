@@ -7,6 +7,7 @@ export const DevHeader = () => {
         <div>
             <NavLink to={PATH.LOGIN}>login </NavLink>
             <NavLink to={PATH.REGISTER}>register</NavLink>
+            <NavLink to={PATH.PROFILE}>profile</NavLink>
 
         </div>
     );
