@@ -5,9 +5,9 @@ import {PATH} from "../routes/Routes";
 export const DevHeader = () => {
     return (
         <div>
-            <NavLink to={PATH.LOGIN}>login </NavLink>
-            <NavLink to={PATH.REGISTER}>register</NavLink>
-            <NavLink to={PATH.PROFILE}>profile</NavLink>
+            <NavLink to={PATH.LOGIN} style={{padding:'10px'}}>login </NavLink>
+            <NavLink to={PATH.REGISTER}  style={{padding:'10px'}}>register</NavLink>
+            <NavLink to={PATH.PROFILE}  style={{padding:'10px'}}>profile</NavLink>
 
         </div>
     );

@@ -17,15 +17,7 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
     const {email, password, checked, setEmail, setPassword, setChecked, onLogin} = props;
 
     return (
-        <div style={{
-            width: '40%',
-            outline: '1px solid red',
-            margin: '0 auto',
-            display: 'flex',
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: 'center'
-        }}>
+        <div >
             <div>
                 <input type="text" placeholder={'enter you email'} value={email}
                        onChange={(e) => setEmail(e.currentTarget.value)}/>

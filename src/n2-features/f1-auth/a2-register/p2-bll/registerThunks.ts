@@ -9,16 +9,13 @@ import {registerIn} from "./registerActions";
 
 export const registerTC = (data: RegisterDataType): ThunkType => {
     return (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
-        debugger
         // Запросы на API
         RegisterAPI.register(data)
             .then(res => {
-                debugger
                 dispatch(registerIn());
 
             })
             .catch(e => {
-                debugger
                 const error = e.response
                     ? e.response.data.error
                     : (e.message + ', more details in the console');
