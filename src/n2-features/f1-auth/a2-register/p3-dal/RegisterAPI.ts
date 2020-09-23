@@ -12,6 +12,7 @@ export type ResponseRegisterDataType={
 
 export const RegisterAPI ={
     register(data:RegisterDataType){
+        debugger
         return axiosInstance.post<ResponseRegisterDataType>('auth/register',data)
     }
 
