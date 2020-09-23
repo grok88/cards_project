@@ -4,17 +4,23 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
 import { Redirect } from "react-router-dom";
 import {registerTC} from "../p2-bll/registerThunks";
+import {Status} from "../../../../n0-common/c1-ui/status/Status";
+import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 
 type RegisterPropsType={}
 
 export const Register: React.FC<RegisterPropsType>= React.memo((props) => {
 
     const isRegisterIn = useSelector<AppRootStateType, boolean>(state => state.register.isRegisterIn)
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
+    const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
+
 
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string>('gerasimenkodenis7@gmail.com');
     const [password, setPassword] = useState<string>('qwertyu12')
     const onRegister=()=>{
+        debugger
         dispatch(registerTC({email,password}))
 
     }
@@ -32,7 +38,8 @@ export const Register: React.FC<RegisterPropsType>= React.memo((props) => {
                 justifyContent: "center",
                 alignItems: 'center'
             }}>
-                <h2>Register</h2>
+                <Status title={'Register'} status={status} error={error}/>
+
                 <div>
                     <input type="text" placeholder={'enter you email'} value={email}
                            onChange={(e) => setEmail(e.currentTarget.value)}/>
