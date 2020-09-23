@@ -22,6 +22,5 @@ export const Profile: React.FC<ProfilePropsType> = React.memo((props) => {
                 <button>LogOut</button>
             </div> : <div> You are not authorized </div>
         }
-
     </div>
 });
