@@ -9,7 +9,7 @@ type StatusBlockPropsType = {
 
 export const Status: React.FC<StatusBlockPropsType> = (props) => {
     const {title, status, error} = props;
-
+    console.log(props)
     return (
         <div>
             <h2>{title}</h2>
