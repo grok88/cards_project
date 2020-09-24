@@ -14,7 +14,24 @@ export const loginTC = (data: LoginDataType): ThunkType => {
         try {
             const res = await LoginAPI.login(data);
             dispatch(setUser(res.data));
-            dispatch(loginIn());
+            dispatch(loginIn(true));
+            dispatch(setStatus("succeeded"));
+        } catch (e) {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console');
+            dispatch(setLoginError(error));
+            dispatch(setStatus("failed"));
+        }
+    }
+}
+export const logOutTC = (): ThunkType => {
+    return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+        dispatch(setStatus("loading"));
+        // Запросы на API
+        try {
+            const res = await LoginAPI.logOut()
+            dispatch(loginIn(false));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response

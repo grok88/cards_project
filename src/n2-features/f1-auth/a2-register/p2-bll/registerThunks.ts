@@ -9,10 +9,8 @@ import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainAction
 
 export const registerTC = (data: RegisterDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
-        debugger
         dispatch(setStatus("loading"));
         try {
-            debugger
             await RegisterAPI.register(data);
             dispatch(registerIn());
             dispatch(setStatus("succeeded"));

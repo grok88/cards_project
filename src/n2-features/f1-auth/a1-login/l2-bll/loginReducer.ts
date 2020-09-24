@@ -6,7 +6,7 @@ export const loginReducer = (state:LoginInitialStateType = loginInitialState, ac
         case LOGIN_IN: { // blank
             return {
                 ...state,
-                isLoginIn: true
+                isLoginIn: action.value
             }
         }
         case SET_LOGIN_ERROR: {

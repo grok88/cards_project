@@ -6,9 +6,10 @@ type setErrorACType = ReturnType<typeof setLoginError>;
 
 export type loginReducerActions = loginInACType | setErrorACType;
 
-export const loginIn = () => {
+export const loginIn = (value:boolean) => {
     return {
         type: LOGIN_IN,
+        value
     } as const
 }
 

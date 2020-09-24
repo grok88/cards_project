@@ -22,10 +22,19 @@ export type ResponseDataType = {
     error: string;
 }
 
+export type RespLogOutType = {
+    info:string;
+    error?:string;
+}
+
 export const LoginAPI ={
     login(data:LoginDataType){
         return axiosInstance.post<ResponseDataType>('auth/login', data);
-    }
+    },
+    logOut(){
+        return axiosInstance.delete<RespLogOutType>('auth/me');
+    },
+
 }
 
 

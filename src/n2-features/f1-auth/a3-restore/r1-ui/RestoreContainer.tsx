@@ -17,7 +17,6 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
     const [email, setEmail] = useState<string>('grok88@tut.by');
 
     const onRestore = useCallback(() => {
-        debugger
         //thunk
         const from = "test-front-admin <ai73a@yandex.by>";
         const message = `<div style="background-color: lime; padding: 15px">		

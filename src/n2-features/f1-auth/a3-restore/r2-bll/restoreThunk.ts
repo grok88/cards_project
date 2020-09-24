@@ -7,11 +7,9 @@ import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainAction
 
 export const RestorePassTC = (data: RestoreDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
-        debugger
         dispatch(setStatus('loading'));
         try {
             const resp = await RestoreAPI.restorePass(data);
-            console.log(resp);
             dispatch(setStatus('succeeded'));
         } catch (e) {
             const error = e.response
