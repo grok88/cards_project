@@ -1,7 +1,6 @@
-export type LoginInitialStateType = {
-    isLoginIn:boolean
-}
+export type LoginInitialStateType = typeof loginInitialState;
 
-export const loginInitialState: LoginInitialStateType = {
-    isLoginIn: false
+export const loginInitialState = {
+    isLoginIn: false,
+    error: null as string | null,
 };

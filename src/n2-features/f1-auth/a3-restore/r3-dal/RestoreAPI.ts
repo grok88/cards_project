@@ -1,9 +1,9 @@
 import {axiosInstance} from "../../../../n1-main/m3-dal/instance";
 
-export type LoginDataType = {
-    email:string;
-    password:string;
-    rememberMe:boolean
+export type RestoreDataType = {
+    email: string;
+    from?: string;
+    message?: string;
 }
 
 export type ResponseDataType = {
@@ -22,19 +22,10 @@ export type ResponseDataType = {
     error: string;
 }
 
-export type RespLogOutType = {
-    info:string;
-    error?:string;
-}
-
-export const LoginAPI ={
-    login(data:LoginDataType){
-        return axiosInstance.post<ResponseDataType>('auth/login', data);
-    },
-    logOut(){
-        return axiosInstance.delete<RespLogOutType>('auth/me');
-    },
-
+export const RestoreAPI = {
+    restorePass(data: RestoreDataType) {
+        return axiosInstance.post('auth/forgot', data);
+    }
 }
 
 
