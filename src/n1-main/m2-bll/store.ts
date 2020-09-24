@@ -5,6 +5,7 @@ import {registerReducer} from "../../n2-features/f1-auth/a2-register/p2-bll/regi
 import {mainReducer} from "./b1-main/mainReducer";
 import {profileReducer} from "../../n2-features/f1-auth/a5-profile/p2-bll/profileReducer";
 import {restoreReducer} from "../../n2-features/f1-auth/a3-restore/r2-bll/restoreReducer";
+import {setPassReducer} from "../../n2-features/f1-auth/a4-setPass/s2-bll/setPassReducer";
 
 
 const RootReducer = combineReducers({
@@ -12,7 +13,7 @@ const RootReducer = combineReducers({
     register: registerReducer,
     main: mainReducer,
     restore: restoreReducer,
-    // setPass :setPassReducer,
+    setPass :setPassReducer,
     profile: profileReducer
 });
 

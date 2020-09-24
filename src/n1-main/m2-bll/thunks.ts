@@ -5,13 +5,15 @@ import {registerReducerActions} from "../../n2-features/f1-auth/a2-register/p2-b
 import {mainReducerActions} from "./b1-main/mainActions";
 import {profileReducerActions} from "../../n2-features/f1-auth/a5-profile/p2-bll/profileActions";
 import {RestoreReducerActions} from "../../n2-features/f1-auth/a3-restore/r2-bll/restoreActions";
+import {setPassReducerActions} from "../../n2-features/f1-auth/a4-setPass/s2-bll/setPassActions";
 
 export type SWActionType =
     | loginReducerActions
     | registerReducerActions
     | mainReducerActions
     | profileReducerActions
-    | RestoreReducerActions;
+    | RestoreReducerActions
+    | setPassReducerActions
 // and add other reducers Actions;
 
 export type ThunkType = ThunkAction<void, AppRootStateType, unknown, SWActionType>;
