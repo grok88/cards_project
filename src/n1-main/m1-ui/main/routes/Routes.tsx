@@ -4,12 +4,13 @@ import {Register} from "../../../../n2-features/f1-auth/a2-register/p1-ui/Regist
 import {LoginContainer} from "../../../../n2-features/f1-auth/a1-login/l1-ui/LoginContainer";
 import {ProfileContainer} from "../../../../n2-features/f1-auth/a5-profile/p1-ui/ProfileContainer";
 import {RestoreContainer} from "../../../../n2-features/f1-auth/a3-restore/r1-ui/RestoreContainer";
+import {SetPass} from "../../../../n2-features/f1-auth/a4-setPass/s1-ui/SetPass";
 
 export const PATH = {
     LOGIN: '/login',
     REGISTER: '/register',
     RESTORE: '/restore',
-    SET_PASS: '/set-pass',
+    SET_PASS: '/set-new-password',
     PROFILE: '/profile'
 }
 export const Routes = () => {
@@ -20,7 +21,7 @@ export const Routes = () => {
             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
             <Route path={PATH.REGISTER} render={() => <Register/>}/>
             <Route path={PATH.RESTORE} render={() => <RestoreContainer/>}/>
-            {/*<Route path={PATH.SET_PASS} render={() => <SetPass/>}/>*/}
+            <Route path={PATH.SET_PASS} render={() => <SetPass/>}/>
             <Route path={PATH.PROFILE} render={() => <ProfileContainer/>}/>
         </div>
     );

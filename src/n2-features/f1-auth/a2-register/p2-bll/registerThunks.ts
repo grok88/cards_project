@@ -15,7 +15,6 @@ export const registerTC = (data: RegisterDataType): ThunkType => {
             dispatch(registerIn());
             dispatch(setStatus("succeeded"));
         } catch (e) {
-            debugger
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');

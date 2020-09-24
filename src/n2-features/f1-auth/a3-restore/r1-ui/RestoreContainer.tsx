@@ -1,10 +1,11 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Restore} from "./Restore";
 import {Status} from "../../../../n0-common/c1-ui/status/Status";
 import {useDispatch, useSelector} from "react-redux";
 import {RestorePassTC} from "../r2-bll/restoreThunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
+import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainActions";
 
 type RestoreContainerPropsType = {}
 
@@ -16,12 +17,23 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
 
     const [email, setEmail] = useState<string>('grok88@tut.by');
 
+    const [firstVisited, setFirstVisited] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (firstVisited) {
+            dispatch(setError(''));
+            dispatch(setStatus('idle'));
+            setFirstVisited(false);
+        }
+    }, [firstVisited, setFirstVisited]);
+
     const onRestore = useCallback(() => {
         //thunk
         const from = "test-front-admin <ai73a@yandex.by>";
         const message = `<div style="background-color: lime; padding: 15px">		
-	<a href='http://localhost:3000/#/set-new-password/$token$'>	
+	<a href='http://localhost:3000/cards_project#/set-new-password/$token$'>	
 	link</a></div>`
+
         dispatch(RestorePassTC({email, from, message}));
     }, [email]);
 

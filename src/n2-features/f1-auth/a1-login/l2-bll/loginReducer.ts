@@ -9,12 +9,7 @@ export const loginReducer = (state:LoginInitialStateType = loginInitialState, ac
                 isLoginIn: action.value
             }
         }
-        case SET_LOGIN_ERROR: {
-            return {
-                ...state,
-                error: action.error
-            }
-        }
+
         default: {
             return state;
         }

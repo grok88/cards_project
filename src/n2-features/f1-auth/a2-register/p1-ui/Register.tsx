@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import {registerTC} from "../p2-bll/registerThunks";
 import {Status} from "../../../../n0-common/c1-ui/status/Status";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
+import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainActions";
 
 type RegisterPropsType={}
 
@@ -18,9 +19,19 @@ export const Register: React.FC<RegisterPropsType>= React.memo((props) => {
 
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string>('gerasimenkodenis7@gmail.com');
-    const [password, setPassword] = useState<string>('qwertyu12')
+    const [password, setPassword] = useState<string>('qwertyu12');
+
+    const [firstVisited, setFirstVisited] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (firstVisited) {
+            dispatch(setError(''));
+            dispatch(setStatus('idle'));
+            setFirstVisited(false);
+        }
+    }, [firstVisited,setFirstVisited]);
+
     const onRegister=()=>{
-        debugger
         dispatch(registerTC({email,password}))
 
     }
