@@ -16,7 +16,7 @@ export const Restore: React.FC<RestorePropsType> = React.memo((props) => {
                 <input type="text" placeholder={'enter you email'} value={email}
                        onChange={(e) => setEmail(e.currentTarget.value)}/>
             </div>
-            <button onClick={onRestore}>Sign in</button>
+            <button onClick={onRestore}>Востановить пароль</button>
             <div>
                 <NavLink to={PATH.LOGIN}>login</NavLink>
             </div>
