@@ -48,7 +48,7 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
             alignItems: 'center'
         }}>
             <Status title={'Restore'} status={status} error={error}/>
-            <Restore email={email} setEmail={setEmail} onRestore={onRestore}/>
+            <Restore email={email} setEmail={setEmail} onRestore={onRestore} status={status}/>
         </div>
     );
 });

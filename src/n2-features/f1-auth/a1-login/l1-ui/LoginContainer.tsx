@@ -24,6 +24,7 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
     const [password, setPassword] = useState<string>('alexgor88');
     const [remember, setRemember] = useState<boolean>(false);
     const [flag, setFlag] = useState<boolean>(false);
+
     const [firstVisited, setFirstVisited] = useState<boolean>(true);
     const [redirect, setRedirect] = useState<boolean>(false);
 
