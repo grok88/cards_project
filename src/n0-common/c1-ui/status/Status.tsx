@@ -7,7 +7,7 @@ type StatusBlockPropsType = {
     error: null | string;
 }
 
-export const Status: React.FC<StatusBlockPropsType> = (props) => {
+export const Status: React.FC<StatusBlockPropsType> = React.memo((props) => {
     const {title, status, error} = props;
     return (
         <div>
@@ -16,4 +16,4 @@ export const Status: React.FC<StatusBlockPropsType> = (props) => {
                 status === 'succeeded' ? <div style={{color:'green'}}>success</div> : null}
         </div>
     );
-}
+});

@@ -10,14 +10,14 @@ export const PATH = {
     LOGIN: '/login',
     REGISTER: '/register',
     RESTORE: '/restore',
-    SET_PASS: '/set-new-password',
+    SET_PASS: '/set-new-password/:token',
     PROFILE: '/profile'
 }
 export const Routes = () => {
 
     return (
         <div>
-            <Route path={'/'} render={() => <Redirect to={PATH.LOGIN}/>}/>
+            <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN}/>}/>
             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
             <Route path={PATH.REGISTER} render={() => <Register/>}/>
             <Route path={PATH.RESTORE} render={() => <RestoreContainer/>}/>

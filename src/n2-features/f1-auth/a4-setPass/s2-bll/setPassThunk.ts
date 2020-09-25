@@ -16,7 +16,6 @@ export const setPassTC = (data: SetPassDataType): ThunkType => {
             dispatch(setPassIn());
             dispatch(setStatus("succeeded"));
         } catch (e) {
-            debugger
             const error = e.response
                 ? e.response.data.error
                 : (e.message + ', more details in the console');
