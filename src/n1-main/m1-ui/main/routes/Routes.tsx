@@ -5,13 +5,15 @@ import {LoginContainer} from "../../../../n2-features/f1-auth/a1-login/l1-ui/Log
 import {ProfileContainer} from "../../../../n2-features/f1-auth/a5-profile/p1-ui/ProfileContainer";
 import {RestoreContainer} from "../../../../n2-features/f1-auth/a3-restore/r1-ui/RestoreContainer";
 import {SetPass} from "../../../../n2-features/f1-auth/a4-setPass/s1-ui/SetPass";
+import {Packs} from "../../../../n2-features/f2-packs_cards/p1-packs/p1-ui/Packs";
 
 export const PATH = {
     LOGIN: '/login',
     REGISTER: '/register',
     RESTORE: '/restore',
     SET_PASS: '/set-new-password/:token',
-    PROFILE: '/profile'
+    PROFILE: '/profile',
+    PACKS: '/packs'
 }
 export const Routes = () => {
 
@@ -23,6 +25,7 @@ export const Routes = () => {
             <Route path={PATH.RESTORE} render={() => <RestoreContainer/>}/>
             <Route path={PATH.SET_PASS} render={() => <SetPass/>}/>
             <Route path={PATH.PROFILE} render={() => <ProfileContainer/>}/>
+            <Route path={PATH.PACKS} render={() => <Packs/>}/>
         </div>
     );
 }
