@@ -6,6 +6,10 @@ import {ProfileContainer} from "../../../../n2-features/f1-auth/a5-profile/p1-ui
 import {RestoreContainer} from "../../../../n2-features/f1-auth/a3-restore/r1-ui/RestoreContainer";
 import {SetPass} from "../../../../n2-features/f1-auth/a4-setPass/s1-ui/SetPass";
 import {Packs} from "../../../../n2-features/f2-packs_cards/p1-packs/p1-ui/Packs";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../../m2-bll/store";
+import {RequestStatusType} from "../../../m2-bll/b1-main/mainInitialState";
+import Preloader from "../../../../n0-common/c1-ui/preloader/Preloader";
 
 export const PATH = {
     LOGIN: '/login',
@@ -16,9 +20,10 @@ export const PATH = {
     PACKS: '/packs'
 }
 export const Routes = () => {
-
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     return (
         <div>
+            {/*{status === 'loading' && <Preloader/>}*/}
             <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN}/>}/>
             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
             <Route path={PATH.REGISTER} render={() => <Register/>}/>

@@ -1,11 +1,11 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Profile} from "./Profile";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {ResponseDataType} from "../../a1-login/l3-dal/LoginAPI";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
-import {logOutTC} from "../../a1-login/l2-bll/loginThunk";
+import {authMeTC, logOutTC} from "../../a1-login/l2-bll/loginThunk";
 
 type ProfileContainerPropsType = {}
 
@@ -15,6 +15,12 @@ export const ProfileContainer: React.FC<ProfileContainerPropsType> = React.memo(
         const isLoginIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoginIn);
         const [flag, setFlag] = useState<boolean>(false);
         const dispatch = useDispatch();
+
+        // useEffect(() => {
+        //     if (!isLoginIn) {
+        //         dispatch(authMeTC());
+        //     }
+        // }, []);
 
         const logOut = useCallback(() => {
             dispatch(logOutTC());

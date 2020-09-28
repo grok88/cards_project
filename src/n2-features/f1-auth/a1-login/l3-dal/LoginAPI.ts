@@ -34,6 +34,9 @@ export const LoginAPI ={
     logOut(){
         return axiosInstance.delete<RespLogOutType>('auth/me');
     },
+    authMe(){
+        return axiosInstance.post<ResponseDataType>('auth/me');
+    },
 
 }
 
