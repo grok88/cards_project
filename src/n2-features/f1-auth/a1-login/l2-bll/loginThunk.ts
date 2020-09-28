@@ -42,3 +42,20 @@ export const logOutTC = (): ThunkType => {
         }
     }
 }
+export const authMeTC = (): ThunkType => {
+    return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+        dispatch(setStatus("loading"));
+        // Запросы на API
+        try {
+            const res = await LoginAPI.authMe()
+            dispatch(loginIn(true));
+            dispatch(setStatus("succeeded"));
+        } catch (e) {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console');
+            dispatch(setError(error));
+            dispatch(setStatus("failed"));
+        }
+    }
+}
