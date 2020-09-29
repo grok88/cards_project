@@ -1,13 +1,14 @@
-// export const LOGIN_IN = 'LOGIN/LOGIN_IN'; // blank
-// export const SET_LOGIN_ERROR = 'LOGIN/SET_ERROR'; // blank
+import { PacksType } from "./packsInitialState";
 
-// type loginInACType = ReturnType<typeof loginIn>;
+export const GET_PACKS = 'PACKS/GET_PACKS';
 
-export type packsReducerActions = {} ;
+type GetPacksACType = ReturnType<typeof getPacks>;
 
-// export const loginIn = (value:boolean) => {
-//     return {
-//         type: LOGIN_IN,
-//         value
-//     } as const
-// }
+export type packsReducerActions = GetPacksACType ;
+
+export const getPacks = (packs:Array<PacksType>) => {
+    return {
+        type: GET_PACKS,
+        packs
+    } as const
+}
