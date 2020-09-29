@@ -6,6 +6,7 @@ import {mainReducerActions} from "./b1-main/mainActions";
 import {profileReducerActions} from "../../n2-features/f1-auth/a5-profile/p2-bll/profileActions";
 import {RestoreReducerActions} from "../../n2-features/f1-auth/a3-restore/r2-bll/restoreActions";
 import {setPassReducerActions} from "../../n2-features/f1-auth/a4-setPass/s2-bll/setPassActions";
+import {packsReducerActions} from "../../n2-features/f2-packs_cards/p1-packs/p2-bll/packsActions";
 
 export type SWActionType =
     | loginReducerActions
@@ -14,6 +15,7 @@ export type SWActionType =
     | profileReducerActions
     | RestoreReducerActions
     | setPassReducerActions
+    | packsReducerActions
 // and add other reducers Actions;
 
 export type ThunkType = ThunkAction<void, AppRootStateType, unknown, SWActionType>;
