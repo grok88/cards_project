@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
-import {deletePackTC, packTC} from "../p2-bll/packsThunk";
+import {addPackTC, deletePackTC, packTC, updatePackTC} from "../p2-bll/packsThunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {PacksType} from "../p2-bll/packsInitialState";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
@@ -25,6 +25,23 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
 
     const onDeletePack = (packId: string) => {
         dispatch(deletePackTC(packId));
+    }
+    const onAddPack = () => {
+        const name = 'New Grok Pack'
+        dispatch(addPackTC({
+            cardsPack: {
+                name
+            }
+        }));
+    }
+    const onUpdatePack = (packId: string) => {
+        const name = 'New Grok Update Pack';
+        dispatch(updatePackTC({
+            cardsPack: {
+                name,
+                _id: packId
+            }
+        }));
     }
 
     const columns = [
@@ -50,14 +67,13 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             dataIndex: 'url',
         },
         {
-            title: <button>ADD</button>,
+            title: <button onClick={onAddPack}>ADD</button>,
             // dataIndex: 'actions',
             render: (pack: PacksType) => {
                 return <div>
-                    <Button>
+                    <Button onClick={() => onUpdatePack(pack._id)}>
                         update
                     </Button>
-
                     <button onClick={() => onDeletePack(pack._id)}>
                         DEL
                     </button>
