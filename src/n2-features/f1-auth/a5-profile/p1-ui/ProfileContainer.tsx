@@ -16,23 +16,26 @@ export const ProfileContainer: React.FC<ProfileContainerPropsType> = React.memo(
         const [flag, setFlag] = useState<boolean>(false);
         const dispatch = useDispatch();
 
-        // useEffect(() => {
-        //     if (!isLoginIn) {
-        //         dispatch(authMeTC());
-        //     }
-        // }, []);
+        useEffect(() => {
+            if (!isLoginIn) {
+                handleAuth()
+            }
+        }, []);
+
+        const handleAuth = async () => {
+            await dispatch(authMeTC());
+            setTimeout(() => {
+                setFlag(true)
+            }, 2000)
+        }
 
         const logOut = useCallback(() => {
             dispatch(logOutTC());
         }, []);
 
-        if (!isLoginIn) {
-            setTimeout(() => {
-                setFlag(true);
-            }, 2000)
-        }
 
-        if (flag) {
+
+        if (!isLoginIn && flag) {
             return <Redirect to={PATH.LOGIN}/>
         }
 
