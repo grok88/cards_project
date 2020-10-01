@@ -1,21 +1,26 @@
 import React, {useEffect} from "react";
-import {Table} from "antd";
+import {Pagination, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {addPackTC, deletePackTC, packTC, updatePackTC} from "../p2-bll/packsThunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
-import {PacksType} from "../p2-bll/packsInitialState";
+import {PacksInitialStateType, PacksType} from "../p2-bll/packsInitialState";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import Button from "antd/lib/button";
 import {NavLink} from "react-router-dom";
+import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
+import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
 
 type PacksPropsType = {}
 
 export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
 
-    const packs = useSelector<AppRootStateType, Array<PacksType>>(state => state.packs.packs);
+    const {cardPacks, cardPacksTotalCount, page, pageCount} = useSelector<AppRootStateType, PacksInitialStateType>(state => state.packs);
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
+    const {currentPage, pageSize} = useSelector<AppRootStateType, PaginationInitialStateType>(state => state.pagination);
+
+    console.log(currentPage, pageSize);
 
     const dispatch = useDispatch();
 
@@ -84,12 +89,30 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
         },
     ];
 
+    //pagination
+    const onChangePage = (page: number, pageSize: number | undefined) => {
+        dispatch(setCurrentPage(page));
+        dispatch(packTC(pageSize, page));
+    }
+    const onShowSizeChange = (current: number, pageSize: number) => {
+        dispatch(setPageSize(pageSize));
+        dispatch(packTC(pageSize, current));
+    }
+
     return (
         <>
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
-            <Table<PacksType> dataSource={packs} columns={columns}
-                // pagination={false}
+            <Table<PacksType> dataSource={cardPacks} columns={columns}
+                              pagination={false}
                               rowKey={'_id'}/>
+
+            <Pagination current={page as number}
+                        defaultCurrent={1}
+                        onChange={onChangePage}
+                        pageSize={pageCount as number}
+                        defaultPageSize={10}
+                        total={cardPacksTotalCount as number}
+                        onShowSizeChange={onShowSizeChange}/>
         </>
     );
 });

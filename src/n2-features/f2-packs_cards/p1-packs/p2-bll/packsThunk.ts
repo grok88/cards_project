@@ -6,12 +6,13 @@ import {AddPackDataType, PacksAPI, UpdatePackDataType} from "../p3-dal/PacksAPI"
 import {getPacks} from "./packsActions";
 
 
-export const packTC = (): ThunkType => {
+export const packTC = (pageCount: number = 10, page: number = 1): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         try {
-            const data = await PacksAPI.getPacks();
-            dispatch(getPacks(data.data.cardPacks));
+            const data = await PacksAPI.getPacks(pageCount, page);
+            console.log(data.data)
+            dispatch(getPacks(data.data));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response
@@ -22,7 +23,7 @@ export const packTC = (): ThunkType => {
         }
     }
 }
-export const deletePackTC = (packId:string): ThunkType => {
+export const deletePackTC = (packId: string): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
@@ -39,7 +40,7 @@ export const deletePackTC = (packId:string): ThunkType => {
         }
     }
 }
-export const addPackTC = (data:AddPackDataType): ThunkType => {
+export const addPackTC = (data: AddPackDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
@@ -56,7 +57,7 @@ export const addPackTC = (data:AddPackDataType): ThunkType => {
         }
     }
 }
-export const updatePackTC = (data:UpdatePackDataType): ThunkType => {
+export const updatePackTC = (data: UpdatePackDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
