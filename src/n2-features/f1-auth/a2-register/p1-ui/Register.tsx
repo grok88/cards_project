@@ -55,7 +55,7 @@ export const Register: React.FC<RegisterPropsType>= React.memo((props) => {
                            onChange={(e) => setEmail(e.currentTarget.value)}/>
                 </div>
                 <div>
-                    <input type="text" placeholder={'enter you password'} value={password}
+                    <input type="password" placeholder={'enter you password'} value={password}
                            onChange={(e) => setPassword(e.currentTarget.value)}/>
                 </div>
                 <button onClick={onRegister}>sign up</button>
