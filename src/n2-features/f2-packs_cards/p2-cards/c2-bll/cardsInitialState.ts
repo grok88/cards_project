@@ -1,5 +1,30 @@
-export type CardsInitialStateType = typeof cardsInitialState;
+export type CardsType = {
+    answer: string
+    qwestion: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    __v: number
+    _id: string
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
 
-export const cardsInitialState = {
 
+}
+export type CardsInitialStateType = {
+    cards: Array<CardsType>
+
+
+}
+
+export const cardsInitialState: CardsInitialStateType = {
+    cards: []
 };

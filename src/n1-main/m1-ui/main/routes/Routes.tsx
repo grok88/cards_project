@@ -10,7 +10,6 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../m2-bll/store";
 import {RequestStatusType} from "../../../m2-bll/b1-main/mainInitialState";
 import Preloader from "../../../../n0-common/c1-ui/preloader/Preloader";
-import {Cards} from "../../../../n2-features/f2-packs_cards/p2-cards/c1-ui/Cards";
 
 export const PATH = {
     LOGIN: '/login',
@@ -19,7 +18,7 @@ export const PATH = {
     SET_PASS: '/set-new-password/:token',
     PROFILE: '/profile',
     PACKS: '/packs',
-    CARDS:'/cards'
+    CARDS:'/cards/:id?'
 }
 export const Routes = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
@@ -33,7 +32,6 @@ export const Routes = () => {
             <Route path={PATH.SET_PASS} render={() => <SetPass/>}/>
             <Route path={PATH.PROFILE} render={() => <ProfileContainer/>}/>
             <Route path={PATH.PACKS} render={() => <Packs/>}/>
-            <Route path={PATH.CARDS} render={() => <Cards/>}/>
         </div>
     );
 }
