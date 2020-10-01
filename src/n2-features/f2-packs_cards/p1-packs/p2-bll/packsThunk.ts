@@ -6,12 +6,11 @@ import {AddPackDataType, PacksAPI, UpdatePackDataType} from "../p3-dal/PacksAPI"
 import {getPacks} from "./packsActions";
 
 
-export const packTC = (pageCount: number = 10, page: number = 1): ThunkType => {
+export const packTC = (pageCount: number = 10, page: number = 1, min:number=0, max:number =16, name:string = ''): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         try {
-            const data = await PacksAPI.getPacks(pageCount, page);
-            console.log(data.data)
+            const data = await PacksAPI.getPacks(pageCount, page,min,max,name);
             dispatch(getPacks(data.data));
             dispatch(setStatus("succeeded"));
         } catch (e) {

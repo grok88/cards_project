@@ -10,6 +10,8 @@ import Button from "antd/lib/button";
 import {NavLink} from "react-router-dom";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
+import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
+import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPanelInitialState";
 
 type PacksPropsType = {}
 
@@ -19,8 +21,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
     const {currentPage, pageSize} = useSelector<AppRootStateType, PaginationInitialStateType>(state => state.pagination);
-
-    console.log(currentPage, pageSize);
+    const {searchValue, minCardsCount, maxCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
 
     const dispatch = useDispatch();
 
@@ -92,16 +93,18 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     //pagination
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
-        dispatch(packTC(pageSize, page));
+        dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue));
     }
     const onShowSizeChange = (current: number, pageSize: number) => {
         dispatch(setPageSize(pageSize));
-        dispatch(packTC(pageSize, current));
+        dispatch(packTC(pageSize, current, minCardsCount, maxCardsCount, searchValue));
     }
 
     return (
         <>
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
+            <SearchPanel minCardsCount={minCardsCount} maxCardsCount={maxCardsCount} pageSize={pageSize}
+                         currentPage={currentPage}/>
             <Table<PacksType> dataSource={cardPacks} columns={columns}
                               pagination={false}
                               rowKey={'_id'}/>

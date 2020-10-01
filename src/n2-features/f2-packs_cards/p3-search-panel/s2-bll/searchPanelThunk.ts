@@ -3,7 +3,7 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {SWActionType, ThunkType} from "../../../../n1-main/m2-bll/thunks";
 
 
-export const paginationTC = (): ThunkType => {
+export const searchPanelTC = (): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
 
     }

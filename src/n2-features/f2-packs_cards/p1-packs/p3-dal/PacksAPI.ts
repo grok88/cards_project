@@ -21,8 +21,8 @@ export type ResponsePacksDataType = {
     pageCount:number// количество элементов на странице
 }
 export const PacksAPI = {
-    getPacks(pageCount:number,page:number) {
-        return axiosInstance.get<ResponsePacksDataType>(`/cards/pack?pageCount=${pageCount}&page=${page}`);
+    getPacks(pageCount:number,page:number,min:number, max:number, name:string) {
+        return axiosInstance.get<ResponsePacksDataType>(`/cards/pack?pageCount=${pageCount}&page=${page}&min=${min}&max=${max}&packName=${name}`);
     },
     deletePack(packId: string) {
         return axiosInstance.delete(`/cards/pack?id=${packId}`);

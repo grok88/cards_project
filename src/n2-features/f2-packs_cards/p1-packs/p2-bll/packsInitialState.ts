@@ -19,16 +19,16 @@ export type PacksType = {
 export type PacksInitialStateType ={
     cardPacks:Array<PacksType>;
     cardPacksTotalCount:null | number,
-    maxCardsCount:null | number,
-    minCardsCount:null | number,
+    maxCardsCount: number,
+    minCardsCount: number,
     page:null | number,
     pageCount:null | number
 }
 export const packsInitialState: PacksInitialStateType = {
     cardPacks:[],
     cardPacksTotalCount:null,
-    maxCardsCount:null,
-    minCardsCount:null,
+    maxCardsCount:0,
+    minCardsCount:16,
     page:null,
     pageCount:null
 };
