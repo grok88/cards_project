@@ -7,6 +7,7 @@ import {profileReducer} from "../../n2-features/f1-auth/a5-profile/p2-bll/profil
 import {restoreReducer} from "../../n2-features/f1-auth/a3-restore/r2-bll/restoreReducer";
 import {setPassReducer} from "../../n2-features/f1-auth/a4-setPass/s2-bll/setPassReducer";
 import {packsReducer} from "../../n2-features/f2-packs_cards/p1-packs/p2-bll/packsReducer";
+import {cardsReducer} from "../../n2-features/f2-packs_cards/p2-cards/c2-bll/cardsReducer";
 
 
 const RootReducer = combineReducers({
@@ -16,7 +17,8 @@ const RootReducer = combineReducers({
     restore: restoreReducer,
     setPass: setPassReducer,
     profile: profileReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    cards: cardsReducer
 });
 
 export type AppRootStateType = ReturnType<typeof RootReducer>;

@@ -1,13 +1,14 @@
-// export const LOGIN_IN = 'LOGIN/LOGIN_IN'; // blank
-// export const SET_LOGIN_ERROR = 'LOGIN/SET_ERROR'; // blank
+import {CardsType} from "./cardsInitialState";
 
-// type loginInACType = ReturnType<typeof loginIn>;
+export const GET_CARDS = 'CARDS/GET_CARDS';
 
-export type cardsReducerActions = {} ;
+type GetCardsACType = ReturnType<typeof getCards>;
 
-// export const loginIn = (value:boolean) => {
-//     return {
-//         type: LOGIN_IN,
-//         value
-//     } as const
-// }
+export type cardsReducerActions = GetCardsACType ;
+
+export const getCards = (cards: Array<CardsType>) => {
+    return {
+        type: GET_CARDS,
+        cards
+    } as const
+}

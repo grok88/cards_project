@@ -7,6 +7,7 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {PacksType} from "../p2-bll/packsInitialState";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import Button from "antd/lib/button";
+import {NavLink} from "react-router-dom";
 
 type PacksPropsType = {}
 
@@ -77,7 +78,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
                     <button onClick={() => onDeletePack(pack._id)}>
                         DEL
                     </button>
-                    <a href="#">cards</a>
+                    <NavLink to={`/cards/${pack._id}`}>cards</NavLink>
                 </div>
             }
         },
