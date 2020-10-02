@@ -6,7 +6,7 @@ export const cardsReducer = (state: CardsInitialStateType = cardsInitialState, a
         case GET_CARDS:
             return {
                 ...state,
-                cards: action.cards
+                ...action.cards
             }
         default: {
             return state;

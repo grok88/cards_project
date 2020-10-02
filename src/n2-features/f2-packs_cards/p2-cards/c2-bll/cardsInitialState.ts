@@ -21,10 +21,20 @@ export type CardsType = {
 }
 export type CardsInitialStateType = {
     cards: Array<CardsType>
+    cardsTotalCount: number
+    maxGrade:number
+    minGrade:number
+    page:number
+    pageCount:number
 
 
 }
 
 export const cardsInitialState: CardsInitialStateType = {
-    cards: []
+    cards: [],
+    cardsTotalCount: 3,
+    maxGrade:5,
+    minGrade: 2,
+    page:1,
+    pageCount:4
 };
