@@ -8,7 +8,6 @@ import {getCards} from "./cardsActions";
 export const getCardTC = (cardsPackId: string, min: number = 2, max: number = 5, page: number = 1, pageCount: number = 4, answer: string = ''): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
-        debugger
         try {
 
             const data = await CardsAPI.getCards(cardsPackId, max, page, pageCount, answer);
