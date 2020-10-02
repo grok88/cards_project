@@ -15,10 +15,20 @@ export type PacksType = {
     __v: number
     _id: string
 }
-export type PacksInitialStateType ={
-    packs:Array<PacksType>
-}
 
-export const packsInitialState:PacksInitialStateType = {
-    packs:[]
+export type PacksInitialStateType ={
+    cardPacks:Array<PacksType>;
+    cardPacksTotalCount:null | number,
+    maxCardsCount: number,
+    minCardsCount: number,
+    page:null | number,
+    pageCount:null | number
+}
+export const packsInitialState: PacksInitialStateType = {
+    cardPacks:[],
+    cardPacksTotalCount:null,
+    maxCardsCount:0,
+    minCardsCount:16,
+    page:null,
+    pageCount:null
 };

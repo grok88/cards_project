@@ -6,7 +6,7 @@ export const packsReducer = (state:PacksInitialStateType = packsInitialState, ac
         case GET_PACKS:
             return {
                 ...state,
-                packs:action.packs
+               ...action.packs
             }
         default: {
             return state;

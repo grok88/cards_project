@@ -19,13 +19,13 @@ export const PATH = {
     SET_PASS: '/set-new-password/:token',
     PROFILE: '/profile',
     PACKS: '/packs',
-    CARDS:'/cards/:id?'
+    CARDS: '/cards/:id?'
 }
 export const Routes = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     return (
         <div>
-               {status === 'loading' && <Preloader/>}
+            {status === 'loading' && <Preloader/>}
             <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN}/>}/>
             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
             <Route path={PATH.REGISTER} render={() => <Register/>}/>
