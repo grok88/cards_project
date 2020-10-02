@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Pagination, Table} from "antd";
+import {Pagination, Space, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {addPackTC, deletePackTC, packTC, updatePackTC} from "../p2-bll/packsThunk";
@@ -12,6 +12,9 @@ import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/paginatio
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
 import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
 import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPanelInitialState";
+import {Sort} from "../../../../n0-common/c1-ui/sort/s1-ui/Sort";
+import {SortInitialStateType} from "../../../../n0-common/c1-ui/sort/s2-bll/SortInitialState";
+import {sortByField} from "../../../../n0-common/c1-ui/sort/s2-bll/SortActions";
 
 type PacksPropsType = {}
 
@@ -22,6 +25,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
     const {currentPage, pageSize} = useSelector<AppRootStateType, PaginationInitialStateType>(state => state.pagination);
     const {searchValue, minCardsCount, maxCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
+    const {sort} = useSelector<AppRootStateType, SortInitialStateType>(state => state.sort);
 
     const dispatch = useDispatch();
 
@@ -29,7 +33,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
         dispatch(packTC());
     }, []);
 
-
+    //cards block
     const onDeletePack = (packId: string) => {
         dispatch(deletePackTC(packId));
     }
@@ -50,10 +54,19 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             }
         }));
     }
-
+    // sort block
+    const onSortUp = () => {
+        dispatch(sortByField('0updated'));
+        dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue, '0updated'));
+    }
+    const onSortDown = () => {
+        dispatch(sortByField('1updated'));
+        dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue, '1updated'));
+    }
+    //table block
     const columns = [
         {
-            title: 'Name',
+            title: 'name',
             dataIndex: 'name',
             // key: '_id',
 
@@ -66,7 +79,12 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             dataIndex: 'cardsCount',
         },
         {
-            title: 'updated',
+            title: <div style={{display: "flex", alignItems: 'center'}}>
+                <Space>
+                    <span>updated</span>
+                    <Sort onSortUp={onSortUp} onSortDown={onSortDown}/>
+                </Space>
+            </div>,
             dataIndex: 'updated',
         },
         {
@@ -78,13 +96,15 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             // dataIndex: 'actions',
             render: (pack: PacksType) => {
                 return <div>
-                    <Button onClick={() => onUpdatePack(pack._id)}>
-                        update
-                    </Button>
-                    <button onClick={() => onDeletePack(pack._id)}>
-                        DEL
-                    </button>
-                    <NavLink to={`/cards/${pack._id}`}>cards</NavLink>
+                    <Space>
+                        <Button onClick={() => onUpdatePack(pack._id)}>
+                            update
+                        </Button>
+                        <button onClick={() => onDeletePack(pack._id)}>
+                            DEL
+                        </button>
+                        <NavLink to={`/cards/${pack._id}`}>cards</NavLink>
+                    </Space>
                 </div>
             }
         },
@@ -93,11 +113,11 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     //pagination
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
-        dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue));
+        dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue, sort));
     }
     const onShowSizeChange = (current: number, pageSize: number) => {
         dispatch(setPageSize(pageSize));
-        dispatch(packTC(pageSize, current, minCardsCount, maxCardsCount, searchValue));
+        dispatch(packTC(pageSize, current, minCardsCount, maxCardsCount, searchValue, sort));
     }
 
     return (
@@ -107,7 +127,9 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
                          currentPage={currentPage}/>
             <Table<PacksType> dataSource={cardPacks} columns={columns}
                               pagination={false}
-                              rowKey={'_id'}/>
+                              rowKey={'_id'}
+
+            />
 
             <Pagination current={page as number}
                         defaultCurrent={1}

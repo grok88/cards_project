@@ -10,6 +10,7 @@ import {packsReducer} from "../../n2-features/f2-packs_cards/p1-packs/p2-bll/pac
 import {cardsReducer} from "../../n2-features/f2-packs_cards/p2-cards/c2-bll/cardsReducer";
 import {paginationReducer} from "../../n0-common/c1-ui/pagination/p2_bll/paginationReducer";
 import {searchPanelReducer} from "../../n2-features/f2-packs_cards/p3-search-panel/s2-bll/searchPanelReducer";
+import { sortReducer } from "../../n0-common/c1-ui/sort/s2-bll/SortReducer";
 
 
 const RootReducer = combineReducers({
@@ -22,7 +23,8 @@ const RootReducer = combineReducers({
     packs: packsReducer,
     cards: cardsReducer,
     pagination: paginationReducer,
-    search: searchPanelReducer
+    search: searchPanelReducer,
+    sort:sortReducer
 });
 
 export type AppRootStateType = ReturnType<typeof RootReducer>;

@@ -48,6 +48,7 @@ export const authMeTC = (): ThunkType => {
         // Запросы на API
         try {
             const res = await LoginAPI.authMe()
+            dispatch(setUser(res.data));
             dispatch(loginIn(true));
             dispatch(setStatus("succeeded"));
         } catch (e) {
