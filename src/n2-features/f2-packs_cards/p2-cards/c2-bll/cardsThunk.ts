@@ -5,14 +5,15 @@ import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainAction
 import {AddCardDataType, CardsAPI, UpdateCardDataType} from "../c3-dall/CardsAPI";
 import {getCards} from "./cardsActions";
 
-export const getCardTC = (cardsPackId: any): ThunkType => {
+export const getCardTC = (cardsPackId: string, min: number = 2, max: number = 5, page: number = 1, pageCount: number = 4, answer: string = ''): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
+        debugger
         try {
-            debugger
-            const data = await CardsAPI.getCards(cardsPackId);
-            debugger
-            dispatch(getCards(data.data.cards));
+
+            const data = await CardsAPI.getCards(cardsPackId, max, page, pageCount, answer);
+
+            dispatch(getCards(data.data));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response
@@ -23,13 +24,12 @@ export const getCardTC = (cardsPackId: any): ThunkType => {
         }
     }
 }
-export const deleteCardTC = (cardId: string,cardsPackId:string): ThunkType => {
+export const deleteCardTC = (cardId: string, cardsPackId: string): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
         try {
-          const data= await CardsAPI.deleteCard(cardId);
-          debugger
+            const data = await CardsAPI.deleteCard(cardId);
             dispatch(getCardTC(cardsPackId));
             dispatch(setStatus("succeeded"));
         } catch (e) {
@@ -58,7 +58,7 @@ export const addCardTC = (data: AddCardDataType): ThunkType => {
         }
     }
 }
-export const updateCardTC = (data: UpdateCardDataType,cardsPackId:string): ThunkType => {
+export const updateCardTC = (data: UpdateCardDataType, cardsPackId: string): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
