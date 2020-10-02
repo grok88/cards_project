@@ -11,7 +11,7 @@ type SearchPanelType = {
     minCardsCount: number;
     maxCardsCount: number;
     currentPage: number;
-    pageSize: number
+    pageSize: number;
 }
 
 export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
