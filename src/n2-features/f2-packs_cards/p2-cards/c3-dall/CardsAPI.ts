@@ -8,7 +8,6 @@ export type AddCardDataType = {
 export type UpdateCardDataType = {
     card: {
         _id: string
-        question?: string
     }
 }
 export const CardsAPI = {

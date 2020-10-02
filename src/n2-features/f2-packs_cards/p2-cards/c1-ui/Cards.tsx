@@ -6,7 +6,7 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import Button from "antd/lib/button";
 import {CardsType} from "../c2-bll/cardsInitialState";
-import {addCardTC, cardTC, deleteCardTC, updateCardTC} from "../c2-bll/cardsThunk";
+import {addCardTC, getCardTC, deleteCardTC, updateCardTC} from "../c2-bll/cardsThunk";
 import {useParams, NavLink} from "react-router-dom";
 
 type CardsPropsType = {}
@@ -20,14 +20,14 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(cardTC(id));
+        dispatch(getCardTC(id));
     }, []);
 
     const {id} = useParams();
 
 
-    const onDeleteCard = (cardId: string) => {
-        dispatch(deleteCardTC(cardId));
+    const onDeleteCard = (cardId: string,cardsPackId:string) => {
+        dispatch(deleteCardTC(cardId, cardsPackId));
     }
     const onAddCard = () => {
         dispatch(addCardTC({
@@ -37,11 +37,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         }));
     }
     const onUpdateCard = (cardId: string) => {
-        dispatch(updateCardTC({
-            card: {
-                _id: cardId
-            }
-        }));
+        dispatch(updateCardTC({card:{_id:cardId}},id))
     }
 
     const columns = [
@@ -74,7 +70,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
                     <Button onClick={() => onUpdateCard(card._id)}>
                         update
                     </Button>
-                    <button onClick={() => onDeleteCard(card._id)}>
+                    <button onClick={() => onDeleteCard(card._id, card.cardsPack_id)}>
                         DEL
                     </button>
                 </div>
