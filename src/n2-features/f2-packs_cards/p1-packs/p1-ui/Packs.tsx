@@ -113,12 +113,13 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     //pagination
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
+        dispatch(setPageSize(pageSize ? pageSize : 10));
         dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue, sort));
     }
-    const onShowSizeChange = (current: number, pageSize: number) => {
-        dispatch(setPageSize(pageSize));
-        dispatch(packTC(pageSize, current, minCardsCount, maxCardsCount, searchValue, sort));
-    }
+    // const onShowSizeChange = (current: number, pageSize: number) => {
+    //     dispatch(setPageSize(pageSize));
+    //     dispatch(packTC(pageSize, current, minCardsCount, maxCardsCount, searchValue, sort));
+    // }
 
     return (
         <>
@@ -137,7 +138,8 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
                         pageSize={pageCount as number}
                         defaultPageSize={10}
                         total={cardPacksTotalCount as number}
-                        onShowSizeChange={onShowSizeChange}/>
+                        // onShowSizeChange={onShowSizeChange}
+                />
         </>
     );
 });
