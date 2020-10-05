@@ -8,6 +8,7 @@ import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import {Status} from "../../../../n0-common/c1-ui/status/Status";
 import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainActions";
+import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 
 type LoginContainerPropsType = {}
 
@@ -27,6 +28,24 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
 
     const [firstVisited, setFirstVisited] = useState<boolean>(true);
     const [redirect, setRedirect] = useState<boolean>(false);
+    //
+    // //modal
+    // const [isOpen, setIsOpen] = useState<boolean>(true);
+    // const [packName, setPackName] = useState<string>('');
+    // //modal
+    // const onModal = () => {
+    //     setIsOpen(true);
+    // }
+    //
+    // const onClose = () => {
+    //     console.log('close');
+    //     setIsOpen(false);
+    // }
+    // const onSubmit = () => {
+    //     console.log(packName);
+    //     onClose();
+    // }
+
 
     useEffect(() => {
         if (firstVisited) {
@@ -63,6 +82,10 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
             justifyContent: "center",
             alignItems: 'center'
         }}>
+            {/*<Modal title={'Введите название колоды'} onClose={onClose} isOpen={isOpen}>*/}
+            {/*    <input type="text" value={packName} onChange={e => setPackName(e.currentTarget.value)}/>*/}
+            {/*    <button onClick={onSubmit}>создать</button>*/}
+            {/*</Modal>*/}
             <Status title={'Login'} status={status} error={error}/>
             <Login email={email} setEmail={setEmail} password={password} setPassword={setPassword} checked={remember}
                    setChecked={setRemember} onLogin={onLogin}/>
