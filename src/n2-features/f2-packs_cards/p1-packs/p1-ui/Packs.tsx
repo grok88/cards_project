@@ -1,12 +1,11 @@
-import React, {useEffect} from "react";
-import {Pagination, Space, Table} from "antd";
+import React, {useEffect, useState} from "react";
+import {Button, Pagination, Space, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {addPackTC, deletePackTC, packTC, updatePackTC} from "../p2-bll/packsThunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {PacksInitialStateType, PacksType} from "../p2-bll/packsInitialState";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
-import Button from "antd/lib/button";
 import {NavLink} from "react-router-dom";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
@@ -15,6 +14,7 @@ import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPa
 import {Sort} from "../../../../n0-common/c1-ui/sort/s1-ui/Sort";
 import {SortInitialStateType} from "../../../../n0-common/c1-ui/sort/s2-bll/SortInitialState";
 import {sortByField} from "../../../../n0-common/c1-ui/sort/s2-bll/SortActions";
+import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 
 type PacksPropsType = {}
 
@@ -26,8 +26,29 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     const {currentPage, pageSize} = useSelector<AppRootStateType, PaginationInitialStateType>(state => state.pagination);
     const {searchValue, minCardsCount, maxCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
     const {sort} = useSelector<AppRootStateType, SortInitialStateType>(state => state.sort);
-
     const dispatch = useDispatch();
+    //modal
+
+    //modal
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [packName, setPackName] = useState<string>('');
+    //modal
+    const onModal = () => {
+        setIsOpen(true);
+    }
+
+    const onClose = () => {
+        setIsOpen(false);
+    }
+    const onSubmit = () => {
+        dispatch(addPackTC({
+            cardsPack: {
+                name: packName
+            }
+        }));
+        onClose();
+    }
+
 
     useEffect(() => {
         dispatch(packTC());
@@ -37,19 +58,21 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     const onDeletePack = (packId: string) => {
         dispatch(deletePackTC(packId));
     }
-    const onAddPack = () => {
-        const name = 'New Grok Pack'
-        dispatch(addPackTC({
-            cardsPack: {
-                name
-            }
-        }));
-    }
-    const onUpdatePack = (packId: string) => {
-        const name = 'New Grok Update Pack';
+
+    // const onAddPack = () => {
+    //     // onModal();
+    //     const name = 'New Grok Pack'
+    //     dispatch(addPackTC({
+    //         cardsPack: {
+    //             name
+    //         }
+    //     }));
+    // }
+
+    const onUpdatePack = (packId: string, newPackName: string) => {
         dispatch(updatePackTC({
             cardsPack: {
-                name,
+                name: newPackName,
                 _id: packId
             }
         }));
@@ -92,20 +115,16 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             dataIndex: 'url',
         },
         {
-            title: <button onClick={onAddPack}>ADD</button>,
+            // title: <button onClick={onAddPack}>ADD</button>,
+            title: <Button onClick={onModal} onKeyDown={(e) => {
+                if (e.key = 'Escape') {
+                    onClose();
+                }
+            }
+            }>ADD</Button>,
             // dataIndex: 'actions',
             render: (pack: PacksType) => {
-                return <div>
-                    <Space>
-                        <Button onClick={() => onUpdatePack(pack._id)}>
-                            update
-                        </Button>
-                        <button onClick={() => onDeletePack(pack._id)}>
-                            DEL
-                        </button>
-                        <NavLink to={`/cards/${pack._id}`}>cards</NavLink>
-                    </Space>
-                </div>
+                return <Test pack={pack} deletePack={onDeletePack} UpdatePack={onUpdatePack}/>
             }
         },
     ];
@@ -113,16 +132,19 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     //pagination
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
+        dispatch(setPageSize(pageSize ? pageSize : 10));
         dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue, sort));
-    }
-    const onShowSizeChange = (current: number, pageSize: number) => {
-        dispatch(setPageSize(pageSize));
-        dispatch(packTC(pageSize, current, minCardsCount, maxCardsCount, searchValue, sort));
     }
 
     return (
         <>
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
+
+            <Modal title={'Введите название колоды'} onClose={onClose} isOpen={isOpen}>
+                <input type="text" value={packName} onChange={e => setPackName(e.currentTarget.value)}/>
+                <button onClick={onSubmit}>создать</button>
+            </Modal>
+
             <SearchPanel minCardsCount={minCardsCount} maxCardsCount={maxCardsCount} pageSize={pageSize}
                          currentPage={currentPage}/>
             <Table<PacksType> dataSource={cardPacks} columns={columns}
@@ -137,7 +159,74 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
                         pageSize={pageCount as number}
                         defaultPageSize={10}
                         total={cardPacksTotalCount as number}
-                        onShowSizeChange={onShowSizeChange}/>
+                // onShowSizeChange={onShowSizeChange}
+            />
         </>
     );
 });
+
+type ModalBTNType = {
+    pack: PacksType;
+    UpdatePack: (packID: string, newPackName: string) => void;
+    deletePack: (packID: string) => void;
+
+}
+export const Test: React.FC<ModalBTNType> = (props) => {
+
+    const {pack, deletePack, UpdatePack} = props;
+    const dispatch = useDispatch();
+    //modal
+
+    //UPDATE
+    const [isUpdateOpen, setUpdateOpen] = useState<boolean>(false);
+    const [packName, setPackName] = useState<string>('');
+
+    const onUpdateOpen = () => {
+        setUpdateOpen(true);
+    }
+    const onUpdateClose = () => {
+        setUpdateOpen(false);
+    }
+    const onUpdateSubmit = () => {
+        UpdatePack(pack._id, packName);
+        onUpdateClose();
+    }
+
+    //DELETE
+    const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
+
+    const onDeleteOpen = () => {
+        setDeleteOpen(true);
+    }
+    const onDeleteClose = () => {
+        setDeleteOpen(false);
+    }
+    const onDeleteSubmit = () => {
+        deletePack(pack._id);
+        onDeleteClose();
+    }
+
+
+    return <div>
+        <Space>
+
+            <Modal title={'Are you sure?'} onClose={onDeleteClose} isOpen={isDeleteOpen}>
+                <button onClick={onDeleteSubmit}>Yes</button>
+                <button onClick={onDeleteClose}>No</button>
+            </Modal>
+
+            <Modal title={'Введите новое название колоды'} onClose={onUpdateClose} isOpen={isUpdateOpen}>
+                <input type="text" value={packName} onChange={e => setPackName(e.currentTarget.value)}/>
+                <button onClick={onUpdateSubmit}>Обновить</button>
+            </Modal>
+
+            <Button onClick={onUpdateOpen}>
+                update
+            </Button>
+            <Button onClick={onDeleteOpen} danger={true}>
+                DEL
+            </Button>
+            <NavLink to={`/cards/${pack._id}`}>cards</NavLink>
+        </Space>
+    </div>
+}
