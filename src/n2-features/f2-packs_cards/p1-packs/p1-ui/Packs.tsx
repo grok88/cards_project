@@ -15,6 +15,7 @@ import {Sort} from "../../../../n0-common/c1-ui/sort/s1-ui/Sort";
 import {SortInitialStateType} from "../../../../n0-common/c1-ui/sort/s2-bll/SortInitialState";
 import {sortByField} from "../../../../n0-common/c1-ui/sort/s2-bll/SortActions";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
+import {setMaxCardsCount, setMinCardsCount} from "../../p3-search-panel/s2-bll/searchPanelActions";
 
 type PacksPropsType = {}
 
@@ -27,7 +28,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     const {searchValue, minCardsCount, maxCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
     const {sort} = useSelector<AppRootStateType, SortInitialStateType>(state => state.sort);
     const dispatch = useDispatch();
-    //modal
+
 
     //modal
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -58,16 +59,6 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
     const onDeletePack = (packId: string) => {
         dispatch(deletePackTC(packId));
     }
-
-    // const onAddPack = () => {
-    //     // onModal();
-    //     const name = 'New Grok Pack'
-    //     dispatch(addPackTC({
-    //         cardsPack: {
-    //             name
-    //         }
-    //     }));
-    // }
 
     const onUpdatePack = (packId: string, newPackName: string) => {
         dispatch(updatePackTC({
@@ -136,6 +127,14 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
         dispatch(packTC(pageSize, page, minCardsCount, maxCardsCount, searchValue, sort));
     }
 
+    //searchPanel
+    const onChange = ([val1, val2]: Array<number>) => {
+        dispatch(setMinCardsCount(val1));
+        dispatch(setMaxCardsCount(val2));
+    }
+    const onSearchSubmit = (value: string) => {
+        dispatch(packTC(pageSize, currentPage, minCardsCount, maxCardsCount, value));
+    }
     return (
         <>
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
@@ -146,7 +145,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             </Modal>
 
             <SearchPanel minCardsCount={minCardsCount} maxCardsCount={maxCardsCount} pageSize={pageSize}
-                         currentPage={currentPage}/>
+                         currentPage={currentPage} onChange={onChange} onSearchSubmit={onSearchSubmit}/>
             <Table<PacksType> dataSource={cardPacks} columns={columns}
                               pagination={false}
                               rowKey={'_id'}

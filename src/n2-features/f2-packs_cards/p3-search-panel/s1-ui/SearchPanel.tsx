@@ -12,6 +12,8 @@ type SearchPanelType = {
     maxCardsCount: number;
     currentPage: number;
     pageSize: number;
+    onChange:([val1, val2]: Array<number>) => void;
+    onSearchSubmit:(value:string)=>void;
 }
 
 export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
@@ -20,18 +22,18 @@ export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
     const dispatch = useDispatch();
     const [value, setValue] = useState('');
 
-    function onChange([val1, val2]: Array<number>) {
-        dispatch(setMinCardsCount(val1));
-    }
+    // function onChange([val1, val2]: Array<number>) {
+    //     dispatch(setMinCardsCount(val1));
+    //     dispatch(setMaxCardsCount(val2));
+    // }
 
-    function onAfterChange([val1, val2]: Array<number>) {
-        dispatch(setMaxCardsCount(val2));
-    }
-
-
+    // function onAfterChange([val1, val2]: Array<number>) {
+    //     dispatch(setMaxCardsCount(val2));
+    // }
     const onSearch = () => {
         dispatch(setSearchInputValue(value));
-        dispatch(packTC(props.pageSize, props.currentPage, minCardsCount, maxCardsCount, value));
+        props.onSearchSubmit(value);
+        // dispatch(packTC(props.pageSize, props.currentPage, minCardsCount, maxCardsCount, value));
     }
 
     return (
@@ -44,8 +46,9 @@ export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
             </div>
             <div style={{width: "500px"}}>
                 <Slider range tooltipVisible={true} step={1} defaultValue={[props.minCardsCount, props.maxCardsCount]}
-                        onChange={onChange}
-                        onAfterChange={onAfterChange}/>
+                        onChange={([val1, val2]) => props.onChange([val1, val2])}
+                        // onAfterChange={onAfterChange}
+                />
             </div>
             <div>
                 <button onClick={onSearch}>Search</button>
