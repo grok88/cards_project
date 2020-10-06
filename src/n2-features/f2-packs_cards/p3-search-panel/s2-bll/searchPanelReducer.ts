@@ -1,5 +1,10 @@
 import {searchPanelInitialState, searchPanelInitialStateType} from "./searchPanelInitialState";
-import {searchPanelReducerActions, SET_MIN_CARDS_COUNT, SET_SEARCH_INPUT_VALUE} from "./searchPanelActions";
+import {
+    searchPanelReducerActions,
+    SET_MAX_CARDS_COUNT, SET_MAX_GRADE,
+    SET_MIN_CARDS_COUNT, SET_MIN_GRADE,
+    SET_SEARCH_INPUT_VALUE
+} from "./searchPanelActions";
 
 export const searchPanelReducer = (state: searchPanelInitialStateType = searchPanelInitialState, action: searchPanelReducerActions): searchPanelInitialStateType => {
     switch (action.type) {
@@ -13,10 +18,20 @@ export const searchPanelReducer = (state: searchPanelInitialStateType = searchPa
                 ...state,
                 minCardsCount: action.minCardsCount
             }
-        case "SEARCH_PANEL/SET_MAX_CARDS_COUNT":
+        case SET_MAX_CARDS_COUNT:
             return {
                 ...state,
                 maxCardsCount: action.maxCardsCount
+            }
+        case SET_MIN_GRADE:
+            return {
+                ...state,
+                minGrade: action.minGrade
+            }
+        case SET_MAX_GRADE:
+            return {
+                ...state,
+                maxGrade: action.maxGrade
             }
         default: {
             return state;

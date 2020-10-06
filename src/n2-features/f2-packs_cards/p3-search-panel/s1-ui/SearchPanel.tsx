@@ -18,7 +18,7 @@ type SearchPanelType = {
 }
 
 export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
-    const {searchValue, maxCardsCount, minCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
+   const {searchValue, maxCardsCount, minCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
 
     const dispatch = useDispatch();
     const [value, setValue] = useState('');
@@ -32,10 +32,14 @@ export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
     //     dispatch(setMaxCardsCount(val2));
     // }
     const onSearch = () => {
+        console.log(searchValue)
         dispatch(setSearchInputValue(value));
+        console.log(searchValue)
         props.onSearchSubmit(value);
         // dispatch(packTC(props.pageSize, props.currentPage, minCardsCount, maxCardsCount, value));
     }
+
+
 
     return (
         <div style={{display: 'flex', justifyContent: 'space-evenly', height: '200px', alignItems: "center"}}>
@@ -47,7 +51,7 @@ export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
             </div>
             <div style={{width: "500px"}}>
                 <Slider range tooltipVisible={true} step={1} defaultValue={[props.minCardsCount, props.maxCardsCount]}
-                        onChange={([val1, val2]) => props.onChange([val1, val2])}
+                        onChange={([val1, val2]) =>  props.onChange([val1, val2])}
                         // onAfterChange={onAfterChange}
                 />
             </div>

@@ -9,6 +9,6 @@ export const searchPanelInitialState: searchPanelInitialStateType = {
     searchValue: '',
     minCardsCount: 0,
     maxCardsCount: 16,
-    maxGrade:4.987525071790364,
-    minGrade: 2.0100984354076568
+    maxGrade:5,
+    minGrade: 0
 };
