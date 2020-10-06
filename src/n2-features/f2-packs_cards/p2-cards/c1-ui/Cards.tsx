@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Pagination, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
@@ -11,19 +11,48 @@ import {useParams, NavLink} from "react-router-dom";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
 import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPanelInitialState";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
+import {
+    setMaxCardsCount,
+    setMaxGrade,
+    setMinCardsCount,
+    setMinGrade
+} from "../../p3-search-panel/s2-bll/searchPanelActions";
+import {addPackTC, packTC} from "../../p1-packs/p2-bll/packsThunk";
+import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
+import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 
 
 type CardsPropsType = {}
 
 export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
 
-    const {cards,cardsTotalCount, page, pageCount} = useSelector<AppRootStateType, CardsInitialStateType>(state => state.cards);
+    const {cards, cardsTotalCount, page, pageCount} = useSelector<AppRootStateType, CardsInitialStateType>(state => state.cards);
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
     const {currentPage, pageSize} = useSelector<AppRootStateType, PaginationInitialStateType>(state => state.pagination);
     const {searchValue, minGrade, maxGrade} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
 
     const dispatch = useDispatch();
+
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [cardName, setCardName] = useState<string>('');
+    //modal
+    const onModal = () => {
+        setIsOpen(true);
+    }
+
+    const onClose = () => {
+        setIsOpen(false);
+    }
+    const onSubmit = () => {
+        dispatch(addCardTC({
+            card: {
+                cardsPack_id: id,
+                question: cardName
+            }
+        }));
+        onClose();
+    }
 
     useEffect(() => {
         dispatch(getCardTC(id));
@@ -32,18 +61,12 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const {id} = useParams();
 
 
-    const onDeleteCard = (cardId: string,cardsPackId:string) => {
+    const onDeleteCard = (cardId: string, cardsPackId: string) => {
         dispatch(deleteCardTC(cardId, cardsPackId));
     }
-    const onAddCard = () => {
-        dispatch(addCardTC({
-            card: {
-                cardsPack_id: id
-            }
-        }));
-    }
+
     const onUpdateCard = (cardId: string) => {
-        dispatch(updateCardTC({card:{_id:cardId}},id))
+        dispatch(updateCardTC({card: {_id: cardId}}, id))
     }
 
     const columns = [
@@ -69,7 +92,12 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         },
 
         {
-            title: <button onClick={(e)=> onAddCard()}>ADD</button>,
+            title: <button onClick={onModal} onKeyDown={(e) => {
+                if (e.key = 'Escape') {
+                    onClose();
+                }
+            }
+            }>ADD</button>,
             // dataIndex: 'actions',
             render: (card: CardsType) => {
                 return <div>
@@ -85,11 +113,17 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     ];
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
-        dispatch(getCardTC(id,minGrade,maxGrade,page,pageSize,searchValue));
+        dispatch(setPageSize(pageSize ? pageSize : 10));
+        dispatch(getCardTC(id, minGrade, maxGrade, page, pageSize, searchValue));
     }
-    const onShowSizeChange = (current: number, pageSize: number) => {
-        dispatch(setPageSize(pageSize));
-        dispatch(getCardTC(id,minGrade,maxGrade,current,pageSize,searchValue));
+    const onChange = ([val1, val2]: Array<number>) => {
+
+        dispatch(setMinGrade(val1));
+        dispatch(setMaxGrade(val2));
+    }
+
+    const onSearchSubmit = (value: string) => {
+        dispatch(getCardTC(id, minGrade, maxGrade, page, pageSize, value));
     }
 
 
@@ -97,7 +131,13 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         <>
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
 
+            <Modal title={'Введите вопрос'} onClose={onClose} isOpen={isOpen}>
+                <input type="text" value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                <button onClick={onSubmit}>создать</button>
+            </Modal>
 
+            <SearchPanel minCardsCount={minGrade} maxCardsCount={maxGrade} pageSize={pageSize}
+                         currentPage={currentPage} onChange={onChange} onSearchSubmit={onSearchSubmit}/>
 
             <Table<CardsType> dataSource={cards} columns={columns} pagination={false} rowKey={'_id'}/>
 
@@ -106,8 +146,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
                         onChange={onChangePage}
                         pageSize={pageCount as number}
                         defaultPageSize={10}
-                        total={cardsTotalCount as number}
-                        onShowSizeChange={onShowSizeChange}/>
+                        total={cardsTotalCount as number}/>
         </>
     );
 });

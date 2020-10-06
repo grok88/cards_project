@@ -3,7 +3,8 @@ import {CardsType} from "../c2-bll/cardsInitialState";
 
 export type AddCardDataType = {
     card: {
-        cardsPack_id: string
+        cardsPack_id: string,
+        question: string
     }
 }
 export type UpdateCardDataType = {
@@ -24,8 +25,8 @@ export type ResponseCardsDataType = {
 //return axiosInstance.get<ResponseCardsDataType>(`/cards/card?cardsPack_id=${cardsPackId}&min=${min}&max=${max}&page=${page}&pageCount=${pageCount}&cardAnswer=${answer}`);
 
 export const CardsAPI = {
-    getCards(cardsPackId: string, max: number,page: number, pageCount: number,answer:string) {
-        return axiosInstance.get<ResponseCardsDataType>(`/cards/card?cardsPack_id=${cardsPackId}&max=${max}&page=${page}&pageCount=${pageCount}&cardAnswer=${answer}`);
+    getCards(cardsPackId: string, max: number,page: number, pageCount: number,cardQuestion:string,min:number) {
+        return axiosInstance.get<ResponseCardsDataType>(`/cards/card?cardsPack_id=${cardsPackId}&max=${max}&min=${min}&page=${page}&pageCount=${pageCount}&cardQuestion=${cardQuestion}`);
     },
     deleteCard(cardId: string) {
         return axiosInstance.delete(`/cards/card?id=${cardId}`);
