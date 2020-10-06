@@ -5,6 +5,7 @@ import {setMaxCardsCount, setMinCardsCount, setSearchInputValue} from "../s2-bll
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {searchPanelInitialStateType} from "../s2-bll/searchPanelInitialState";
 import {packTC} from "../../p1-packs/p2-bll/packsThunk";
+import {Button} from "antd";
 
 
 type SearchPanelType = {
@@ -51,7 +52,7 @@ export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
                 />
             </div>
             <div>
-                <button onClick={onSearch}>Search</button>
+                <Button onClick={onSearch}>Search</Button>
             </div>
 
         </div>

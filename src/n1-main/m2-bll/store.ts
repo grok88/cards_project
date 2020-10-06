@@ -11,6 +11,7 @@ import {cardsReducer} from "../../n2-features/f2-packs_cards/p2-cards/c2-bll/car
 import {paginationReducer} from "../../n0-common/c1-ui/pagination/p2_bll/paginationReducer";
 import {searchPanelReducer} from "../../n2-features/f2-packs_cards/p3-search-panel/s2-bll/searchPanelReducer";
 import { sortReducer } from "../../n0-common/c1-ui/sort/s2-bll/SortReducer";
+import { learnReducer } from "../../n2-features/f3-learn_grade/l1-learn/l2-bll/LearnReducer";
 
 
 const RootReducer = combineReducers({
@@ -24,7 +25,8 @@ const RootReducer = combineReducers({
     cards: cardsReducer,
     pagination: paginationReducer,
     search: searchPanelReducer,
-    sort:sortReducer
+    sort:sortReducer,
+    learn:learnReducer
 });
 
 export type AppRootStateType = ReturnType<typeof RootReducer>;

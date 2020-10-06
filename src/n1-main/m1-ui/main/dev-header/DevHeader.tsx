@@ -12,6 +12,7 @@ export const DevHeader = () => {
             <NavLink to={PATH.PROFILE} style={{padding: '10px'}}>profile</NavLink>
             <NavLink to={PATH.PACKS} style={{padding: '10px'}}>packs</NavLink>
             <NavLink to={PATH.CARDS} style={{padding: '10px'}}>cards</NavLink>
+            <NavLink to={PATH.LEARN} style={{padding: '10px'}}>learn</NavLink>
         </div>
     );
 }
