@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Pagination, Table} from "antd";
+import {Pagination, Space, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
@@ -17,9 +17,10 @@ import {
     setMinCardsCount,
     setMinGrade
 } from "../../p3-search-panel/s2-bll/searchPanelActions";
-import {addPackTC, packTC} from "../../p1-packs/p2-bll/packsThunk";
+import {addPackTC, deletePackTC, packTC, updatePackTC} from "../../p1-packs/p2-bll/packsThunk";
 import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
+import {UpdateCardDataType} from "../c3-dall/CardsAPI";
 
 
 type CardsPropsType = {}
@@ -46,7 +47,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     }
     const onSubmit = () => {
         dispatch(addCardTC(
-           {
+            {
                 cardsPack_id: id,
                 question: cardName
             }
@@ -59,14 +60,12 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     }, []);
 
 
-
-
-    const onDeleteCard = (cardId: string, cardsPackId: string) => {
-        dispatch(deleteCardTC(cardId, cardsPackId));
+    const onDeleteCard = (cardId: string) => {
+        dispatch(deleteCardTC(cardId));
     }
 
-    const onUpdateCard = (cardId: string) => {
-        dispatch(updateCardTC({card: {_id: cardId}}, id))
+    const onUpdateCard = (cardId: string, newQuestion: string) => {
+        dispatch(updateCardTC({_id: cardId, question: newQuestion}))
     }
 
     const columns = [
@@ -100,21 +99,15 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
             }>ADD</button>,
             // dataIndex: 'actions',
             render: (card: CardsType) => {
-                return <div>
-                    <Button onClick={() => onUpdateCard(card._id)}>
-                        update
-                    </Button>
-                    <button onClick={() => onDeleteCard(card._id, card.cardsPack_id)}>
-                        DEL
-                    </button>
-                </div>
+                return <ModalDeleteAndUpdate card={card} deleteCard={onDeleteCard} updateCard={onUpdateCard}/>
+
             }
         },
     ];
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
         dispatch(setPageSize(pageSize ? pageSize : 10));
-        dispatch(getCardTC(id,searchValue, minGrade, maxGrade, page, pageSize));
+        dispatch(getCardTC(id, searchValue, minGrade, maxGrade, page, pageSize));
     }
     const onChange = ([val1, val2]: Array<number>) => {
 
@@ -123,7 +116,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     }
 
     const onSearchSubmit = (value: string) => {
-        dispatch(getCardTC(id,value, minGrade, maxGrade, page, pageSize ));
+        dispatch(getCardTC(id, value, minGrade, maxGrade, page, pageSize));
     }
 
 
@@ -150,3 +143,62 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         </>
     );
 });
+
+type ModalAndDeleteType = {
+    card: CardsType
+    deleteCard: (cardId: string) => void
+    updateCard: (cardId: string, newQuestion: string) => void
+
+}
+
+export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
+    const {card, deleteCard, updateCard} = props;
+    //modal
+
+    //UPDATE
+    const [isUpdateOpen, setUpdateOpen] = useState<boolean>(false);
+    const [cardName, setCardName] = useState<string>('');
+
+    const onUpdateOpen = () => {
+        setUpdateOpen(true)
+    }
+
+    const onUpdateClose = () => {
+        setUpdateOpen(false);
+    }
+    const onUpdateSubmit = () => {
+        updateCard(card._id, cardName);
+        onUpdateClose();
+    }
+    //DELETE
+    const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
+
+    const onDeleteOpen = () => {
+        setDeleteOpen(true);
+    }
+    const onDeleteClose = () => {
+        setDeleteOpen(false);
+    }
+    const onDeleteSubmit = () => {
+        deleteCard(card._id);
+        onDeleteClose();
+    }
+    return <div>
+        <Space>
+            <Modal title={'Are you sure?'} onClose={onDeleteClose} isOpen={isDeleteOpen}>
+                <button onClick={onDeleteSubmit}>Yes</button>
+                <button onClick={onDeleteClose}>No</button>
+            </Modal>
+            <Modal title={'Введите другой вопрос'} onClose={onUpdateClose} isOpen={isUpdateOpen}>
+                <input type='text' value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                <button onClick={onUpdateSubmit}>Update</button>
+            </Modal>
+            <Button onClick={onUpdateOpen}>
+                update
+            </Button>
+            <Button onClick={onDeleteOpen} danger={true}>
+                del
+            </Button>
+        </Space>
+    </div>
+}

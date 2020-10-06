@@ -22,12 +22,13 @@ export const getCardTC = (cardsPackId: string, cardQuestion: string = '', min: n
         }
     }
 }
-export const deleteCardTC = (cardId: string, cardsPackId: string): ThunkType => {
+export const deleteCardTC = (cardId: string): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
         try {
             const data = await CardsAPI.deleteCard(cardId);
+
             // dispatch(getCardTC(cardsPackId));
             dispatch(deleteCard(cardId))
             dispatch(setStatus("succeeded"));
@@ -58,12 +59,13 @@ export const addCardTC = (data: AddCardDataType): ThunkType => {
         }
     }
 }
-export const updateCardTC = (data: UpdateCardDataType, cardsPackId: string): ThunkType => {
+export const updateCardTC = (data: UpdateCardDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         // Запросы на API
         try {
             const res = await CardsAPI.updateCard(data);
+
             dispatch(updateCard(res.updatedCard))
             // dispatch(getCardTC(cardsPackId));
             dispatch(setStatus("succeeded"));
