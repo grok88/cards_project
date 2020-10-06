@@ -33,7 +33,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const {searchValue, minGrade, maxGrade} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
 
     const dispatch = useDispatch();
-
+    const {id} = useParams();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [cardName, setCardName] = useState<string>('');
     //modal
@@ -45,12 +45,12 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         setIsOpen(false);
     }
     const onSubmit = () => {
-        dispatch(addCardTC({
-            card: {
+        dispatch(addCardTC(
+           {
                 cardsPack_id: id,
                 question: cardName
             }
-        }));
+        ));
         onClose();
     }
 
@@ -58,7 +58,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(getCardTC(id));
     }, []);
 
-    const {id} = useParams();
+
 
 
     const onDeleteCard = (cardId: string, cardsPackId: string) => {
@@ -114,7 +114,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
         dispatch(setPageSize(pageSize ? pageSize : 10));
-        dispatch(getCardTC(id, minGrade, maxGrade, page, pageSize, searchValue));
+        dispatch(getCardTC(id,searchValue, minGrade, maxGrade, page, pageSize));
     }
     const onChange = ([val1, val2]: Array<number>) => {
 
@@ -123,7 +123,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     }
 
     const onSearchSubmit = (value: string) => {
-        dispatch(getCardTC(id, minGrade, maxGrade, page, pageSize, value));
+        dispatch(getCardTC(id,value, minGrade, maxGrade, page, pageSize ));
     }
 
 

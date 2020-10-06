@@ -3,9 +3,9 @@ import {ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainActions";
 import {AddCardDataType, CardsAPI, UpdateCardDataType} from "../c3-dall/CardsAPI";
-import {getCards} from "./cardsActions";
+import {addCard, deleteCard, getCards, updateCard} from "./cardsActions";
 
-export const getCardTC = (cardsPackId: string, min: number = 0, max: number = 0, page: number = 1, pageCount: number = 4, cardQuestion: string = ''): ThunkType => {
+export const getCardTC = (cardsPackId: string, cardQuestion: string = '', min: number = 0, max: number = 0, page: number = 1, pageCount: number = 4): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         try {
@@ -28,7 +28,8 @@ export const deleteCardTC = (cardId: string, cardsPackId: string): ThunkType => 
         // Запросы на API
         try {
             const data = await CardsAPI.deleteCard(cardId);
-            dispatch(getCardTC(cardsPackId));
+            // dispatch(getCardTC(cardsPackId));
+            dispatch(deleteCard(cardId))
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response
@@ -44,9 +45,9 @@ export const addCardTC = (data: AddCardDataType): ThunkType => {
         dispatch(setStatus("loading"));
         // Запросы на API
         try {
-            await CardsAPI.addCard(data);
-            dispatch(getCardTC(data.card.cardsPack_id));
-            dispatch(getCardTC(data.card.question));
+            const res = await CardsAPI.addCard(data);
+            dispatch(addCard(res.newCard))
+            // dispatch(getCardTC(data.cardsPack_id, data.question));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response
@@ -62,8 +63,9 @@ export const updateCardTC = (data: UpdateCardDataType, cardsPackId: string): Thu
         dispatch(setStatus("loading"));
         // Запросы на API
         try {
-            await CardsAPI.updateCard(data);
-            dispatch(getCardTC(cardsPackId));
+            const res = await CardsAPI.updateCard(data);
+            dispatch(updateCard(res.updatedCard))
+            // dispatch(getCardTC(cardsPackId));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response

@@ -2,14 +2,14 @@ import {axiosInstance} from "../../../../n1-main/m3-dal/instance";
 import {CardsType} from "../c2-bll/cardsInitialState";
 
 export type AddCardDataType = {
-    card: {
         cardsPack_id: string,
         question: string
-    }
 }
 export type UpdateCardDataType = {
     card: {
         _id: string
+        question?: string
+        answer?: string
     }
 }
 
@@ -32,9 +32,9 @@ export const CardsAPI = {
         return axiosInstance.delete(`/cards/card?id=${cardId}`);
     },
     addCard(data: AddCardDataType) {
-        return axiosInstance.post(`/cards/card`, data);
+        return axiosInstance.post<{newCard: CardsType}>(`/cards/card`, {card: data}).then(res => res.data);
     },
     updateCard(data: UpdateCardDataType) {
-        return axiosInstance.put(`/cards/card`, data);
+        return axiosInstance.put<{updatedCard: CardsType}>(`/cards/card`, data).then(res => res.data);
     }
 }
