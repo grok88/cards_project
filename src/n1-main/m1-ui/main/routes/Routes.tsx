@@ -11,6 +11,7 @@ import {AppRootStateType} from "../../../m2-bll/store";
 import {RequestStatusType} from "../../../m2-bll/b1-main/mainInitialState";
 import Preloader from "../../../../n0-common/c1-ui/preloader/Preloader";
 import {Cards} from "../../../../n2-features/f2-packs_cards/p2-cards/c1-ui/Cards";
+import {Learn} from "../../../../n2-features/f3-learn_grade/l1-learn/l1-ui/Learn";
 
 export const PATH = {
     LOGIN: '/login',
@@ -19,7 +20,9 @@ export const PATH = {
     SET_PASS: '/set-new-password/:token',
     PROFILE: '/profile',
     PACKS: '/packs',
-    CARDS: '/cards/:id?'
+    CARDS: '/cards/:id?',
+    LEARN: '/learn/:id?',
+
 }
 export const Routes = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
@@ -34,6 +37,7 @@ export const Routes = () => {
             <Route path={PATH.PROFILE} render={() => <ProfileContainer/>}/>
             <Route path={PATH.PACKS} render={() => <Packs/>}/>
             <Route path={PATH.CARDS} render={() => <Cards/>}/>
+            <Route path={PATH.LEARN} render={() => <Learn/>}/>
         </div>
     );
 }

@@ -226,6 +226,7 @@ export const Test: React.FC<ModalBTNType> = (props) => {
                 DEL
             </Button>
             <NavLink to={`/cards/${pack._id}`}>cards</NavLink>
+            <NavLink to={`/learn/${pack._id}`}>learn</NavLink>
         </Space>
     </div>
 }
