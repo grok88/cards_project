@@ -16,6 +16,7 @@ import {SortInitialStateType} from "../../../../n0-common/c1-ui/sort/s2-bll/Sort
 import {sortByField} from "../../../../n0-common/c1-ui/sort/s2-bll/SortActions";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 import {setMaxCardsCount, setMinCardsCount} from "../../p3-search-panel/s2-bll/searchPanelActions";
+import {LOGIN_IN} from "../../../f1-auth/a1-login/l2-bll/loginActions";
 
 type PacksPropsType = {}
 
@@ -132,9 +133,10 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
         dispatch(setMinCardsCount(val1));
         dispatch(setMaxCardsCount(val2));
     }
-    const onSearchSubmit = (value: string) => {
+    const onSearchSubmit = (value:string) => {
         dispatch(packTC(pageSize, currentPage, minCardsCount, maxCardsCount, value));
     }
+
     return (
         <>
             {/*<Status title={'Packs'} status={status} error={error}/>*/}

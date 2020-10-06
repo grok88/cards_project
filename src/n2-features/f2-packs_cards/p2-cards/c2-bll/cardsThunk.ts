@@ -5,12 +5,11 @@ import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainAction
 import {AddCardDataType, CardsAPI, UpdateCardDataType} from "../c3-dall/CardsAPI";
 import {getCards} from "./cardsActions";
 
-export const getCardTC = (cardsPackId: string, min: number = 2, max: number = 5, page: number = 1, pageCount: number = 4, answer: string = ''): ThunkType => {
+export const getCardTC = (cardsPackId: string, min: number = 0, max: number = 0, page: number = 1, pageCount: number = 4, cardQuestion: string = ''): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
         try {
-
-            const data = await CardsAPI.getCards(cardsPackId, max, page, pageCount, answer);
+            const data = await CardsAPI.getCards(cardsPackId, max, page, pageCount, cardQuestion,min);
 
             dispatch(getCards(data.data));
             dispatch(setStatus("succeeded"));
@@ -47,6 +46,7 @@ export const addCardTC = (data: AddCardDataType): ThunkType => {
         try {
             await CardsAPI.addCard(data);
             dispatch(getCardTC(data.card.cardsPack_id));
+            dispatch(getCardTC(data.card.question));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response
