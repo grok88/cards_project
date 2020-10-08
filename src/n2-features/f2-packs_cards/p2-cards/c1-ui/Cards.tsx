@@ -6,18 +6,12 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import Button from "antd/lib/button";
 import {CardsInitialStateType, CardsType} from "../c2-bll/cardsInitialState";
-import {addCardTC, getCardTC, deleteCardTC, updateCardTC} from "../c2-bll/cardsThunk";
-import {useParams, NavLink} from "react-router-dom";
+import {addCardTC, deleteCardTC, getCardTC, updateCardTC} from "../c2-bll/cardsThunk";
+import {useParams} from "react-router-dom";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
 import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPanelInitialState";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
-import {
-    setMaxCardsCount,
-    setMaxGrade,
-    setMinCardsCount,
-    setMinGrade
-} from "../../p3-search-panel/s2-bll/searchPanelActions";
-import {addPackTC, packTC} from "../../p1-packs/p2-bll/packsThunk";
+import {setMaxGrade, setMinGrade} from "../../p3-search-panel/s2-bll/searchPanelActions";
 import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 
