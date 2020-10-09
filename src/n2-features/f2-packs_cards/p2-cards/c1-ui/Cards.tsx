@@ -1,19 +1,26 @@
 import React, {useEffect, useState} from "react";
-import {Pagination, Table} from "antd";
+import {Pagination, Space, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import Button from "antd/lib/button";
 import {CardsInitialStateType, CardsType} from "../c2-bll/cardsInitialState";
-import {addCardTC, deleteCardTC, getCardTC, updateCardTC} from "../c2-bll/cardsThunk";
-import {useParams} from "react-router-dom";
+import {addCardTC, getCardTC, deleteCardTC, updateCardTC} from "../c2-bll/cardsThunk";
+import {useParams, NavLink} from "react-router-dom";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
 import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPanelInitialState";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
-import {setMaxGrade, setMinGrade} from "../../p3-search-panel/s2-bll/searchPanelActions";
+import {
+    setMaxCardsCount,
+    setMaxGrade,
+    setMinCardsCount,
+    setMinGrade
+} from "../../p3-search-panel/s2-bll/searchPanelActions";
+import {addPackTC, deletePackTC, packTC, updatePackTC} from "../../p1-packs/p2-bll/packsThunk";
 import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
+import {UpdateCardDataType} from "../c3-dall/CardsAPI";
 
 
 type CardsPropsType = {}
@@ -27,7 +34,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const {searchValue, minGrade, maxGrade} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
 
     const dispatch = useDispatch();
-
+    const {id} = useParams();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [cardName, setCardName] = useState<string>('');
     //modal
@@ -39,12 +46,13 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         setIsOpen(false);
     }
     const onSubmit = () => {
-        dispatch(addCardTC({
-            card: {
+        dispatch(addCardTC(
+            {
                 cardsPack_id: id,
                 question: cardName
+
             }
-        }));
+        ));
         onClose();
     }
 
@@ -52,15 +60,13 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(getCardTC(id));
     }, []);
 
-    const {id} = useParams();
 
-
-    const onDeleteCard = (cardId: string, cardsPackId: string) => {
-        dispatch(deleteCardTC(cardId, cardsPackId));
+    const onDeleteCard = (cardId: string) => {
+        dispatch(deleteCardTC(cardId));
     }
 
-    const onUpdateCard = (cardId: string) => {
-        dispatch(updateCardTC({card: {_id: cardId}}, id))
+    const onUpdateCard = (cardId: string, newQuestion: string,cardAnswer:string) => {
+        dispatch(updateCardTC({_id: cardId, question: newQuestion,answer:cardAnswer}))
     }
 
     const columns = [
@@ -94,21 +100,15 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
             }>ADD</button>,
             // dataIndex: 'actions',
             render: (card: CardsType) => {
-                return <div>
-                    <Button onClick={() => onUpdateCard(card._id)}>
-                        update
-                    </Button>
-                    <button onClick={() => onDeleteCard(card._id, card.cardsPack_id)}>
-                        DEL
-                    </button>
-                </div>
+                return <ModalDeleteAndUpdate card={card} deleteCard={onDeleteCard} updateCard={onUpdateCard}/>
+
             }
         },
     ];
     const onChangePage = (page: number, pageSize: number | undefined) => {
         dispatch(setCurrentPage(page));
         dispatch(setPageSize(pageSize ? pageSize : 10));
-        dispatch(getCardTC(id, minGrade, maxGrade, page, pageSize, searchValue));
+        dispatch(getCardTC(id, searchValue, minGrade, maxGrade, page, pageSize));
     }
     const onChange = ([val1, val2]: Array<number>) => {
 
@@ -117,7 +117,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     }
 
     const onSearchSubmit = (value: string) => {
-        dispatch(getCardTC(id, minGrade, maxGrade, page, pageSize, value));
+        dispatch(getCardTC(id, value, minGrade, maxGrade, page, pageSize));
     }
 
 
@@ -135,8 +135,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
 
             <Table<CardsType> dataSource={cards} columns={columns} pagination={false} rowKey={'_id'}/>
 
-            <Pagination style={{padding: '20px'}}
-                        current={page as number}
+            <Pagination current={page as number}
                         defaultCurrent={1}
                         onChange={onChangePage}
                         pageSize={pageCount as number}
@@ -145,3 +144,74 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         </>
     );
 });
+
+type ModalAndDeleteType = {
+    card: CardsType
+    deleteCard: (cardId: string) => void
+    updateCard: (cardId: string, newQuestion: string, cardAnswer:string) => void
+
+}
+
+export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
+    const {card, deleteCard, updateCard} = props;
+    //modal
+
+    //UPDATE
+    const [isUpdateOpen, setUpdateOpen] = useState<boolean>(false);
+    const [cardName, setCardName] = useState<string>('');
+    const [cardAnswer, setCardAnswer] = useState<string>('');
+
+    const onUpdateOpen = () => {
+        setUpdateOpen(true)
+    }
+
+    const onUpdateClose = () => {
+        setUpdateOpen(false);
+    }
+    const onUpdateSubmit = () => {
+        updateCard(card._id, cardName,cardAnswer);
+
+
+        onUpdateClose();
+    }
+    //DELETE
+    const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
+
+    const onDeleteOpen = () => {
+        setDeleteOpen(true);
+    }
+    const onDeleteClose = () => {
+        setDeleteOpen(false);
+    }
+    const onDeleteSubmit = () => {
+        deleteCard(card._id);
+        onDeleteClose();
+    }
+    return <div>
+        <Space>
+            <Modal title={'Are you sure?'} onClose={onDeleteClose} isOpen={isDeleteOpen}>
+                <button onClick={onDeleteSubmit}>Yes</button>
+                <button onClick={onDeleteClose}>No</button>
+            </Modal>
+            <Modal title={'Введите другой вопрос'} onClose={onUpdateClose} isOpen={isUpdateOpen}>
+                <div>
+                    <label> редактировать вопрос
+                        <input type='text' value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                    </label>
+
+                    <label> редактировать ответ
+                        <input type='text' value={cardAnswer} onChange={e => setCardAnswer(e.currentTarget.value)}/>
+                    </label>
+                </div>
+                <button onClick={onUpdateSubmit}>Update</button>
+
+            </Modal>
+            <Button onClick={onUpdateOpen}>
+                update
+            </Button>
+            <Button onClick={onDeleteOpen} danger={true}>
+                del
+            </Button>
+        </Space>
+    </div>
+}
