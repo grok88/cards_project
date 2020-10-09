@@ -62,7 +62,6 @@ export const addCardTC = (data: AddCardDataType): ThunkType => {
 export const updateCardTC = (data: UpdateCardDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));
-        // Запросы на API
         try {
             const res = await CardsAPI.updateCard(data);
 

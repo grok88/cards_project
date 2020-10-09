@@ -50,6 +50,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
             {
                 cardsPack_id: id,
                 question: cardName
+
             }
         ));
         onClose();
@@ -64,8 +65,8 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(deleteCardTC(cardId));
     }
 
-    const onUpdateCard = (cardId: string, newQuestion: string) => {
-        dispatch(updateCardTC({_id: cardId, question: newQuestion}))
+    const onUpdateCard = (cardId: string, newQuestion: string,cardAnswer:string) => {
+        dispatch(updateCardTC({_id: cardId, question: newQuestion,answer:cardAnswer}))
     }
 
     const columns = [
@@ -147,7 +148,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
 type ModalAndDeleteType = {
     card: CardsType
     deleteCard: (cardId: string) => void
-    updateCard: (cardId: string, newQuestion: string) => void
+    updateCard: (cardId: string, newQuestion: string, cardAnswer:string) => void
 
 }
 
@@ -158,6 +159,7 @@ export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
     //UPDATE
     const [isUpdateOpen, setUpdateOpen] = useState<boolean>(false);
     const [cardName, setCardName] = useState<string>('');
+    const [cardAnswer, setCardAnswer] = useState<string>('');
 
     const onUpdateOpen = () => {
         setUpdateOpen(true)
@@ -167,7 +169,9 @@ export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
         setUpdateOpen(false);
     }
     const onUpdateSubmit = () => {
-        updateCard(card._id, cardName);
+        updateCard(card._id, cardName,cardAnswer);
+
+
         onUpdateClose();
     }
     //DELETE
@@ -190,8 +194,17 @@ export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
                 <button onClick={onDeleteClose}>No</button>
             </Modal>
             <Modal title={'Введите другой вопрос'} onClose={onUpdateClose} isOpen={isUpdateOpen}>
-                <input type='text' value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                <div>
+                    <label> редактировать вопрос
+                        <input type='text' value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                    </label>
+
+                    <label> редактировать ответ
+                        <input type='text' value={cardAnswer} onChange={e => setCardAnswer(e.currentTarget.value)}/>
+                    </label>
+                </div>
                 <button onClick={onUpdateSubmit}>Update</button>
+
             </Modal>
             <Button onClick={onUpdateOpen}>
                 update
