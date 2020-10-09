@@ -115,7 +115,7 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
             }>ADD</Button>,
             // dataIndex: 'actions',
             render: (pack: PacksType) => {
-                return <Test pack={pack} deletePack={onDeletePack} UpdatePack={onUpdatePack}/>
+                return <ModalDeleteAndUpdatePacks pack={pack} deletePack={onDeletePack} UpdatePack={onUpdatePack}/>
             }
         },
     ];
@@ -172,7 +172,7 @@ type ModalBTNType = {
     deletePack: (packID: string) => void;
 
 }
-export const Test: React.FC<ModalBTNType> = (props) => {
+export const ModalDeleteAndUpdatePacks: React.FC<ModalBTNType> = (props) => {
 
     const {pack, deletePack, UpdatePack} = props;
     const dispatch = useDispatch();

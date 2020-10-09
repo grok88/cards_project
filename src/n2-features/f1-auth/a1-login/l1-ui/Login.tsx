@@ -1,7 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
-import { Button } from "antd";
+import {Button} from "antd";
 
 type LoginPropsType = {
     email: string;

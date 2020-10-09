@@ -48,12 +48,10 @@ export const Learn: React.FC<LearnPropsType> = (props) => {
 
     useEffect(() => {
         cards.length && setCard(getCard(cards));
-        console.log('first')
     }, [cards]);
 
     useEffect(() => {
         dispatch(getCardTC(packId));
-        console.log('second')
     }, [packId]);
 
 
@@ -67,14 +65,18 @@ export const Learn: React.FC<LearnPropsType> = (props) => {
         <div>
             <h1> Learn</h1>
             <div>
+                <div>
+                    <b>Question:</b>
+                </div>
                 {card && card.question}
             </div>
             <Button onClick={isAnswerOpen}>show answer</Button>
             {
                 check && <div>
-                    {card && <div>{card.answer}</div>}
+					<div>
+						<b>Answer: </b>{card && <div>{card.answer}</div>}
+					</div>
 					<Space>
-
                         {
                             buttons.map((btn, i) => <Button key={i} onClick={() => {
                                 onGradeSend(i + 1);

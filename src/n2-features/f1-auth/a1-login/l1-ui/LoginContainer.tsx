@@ -57,7 +57,7 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
     return (
         <div style={{
             width: '40%',
-            outline: '1px solid red',
+            // outline: '1px solid red',
             margin: '0 auto',
             display: 'flex',
             flexDirection: "column",

@@ -6,21 +6,14 @@ import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import Button from "antd/lib/button";
 import {CardsInitialStateType, CardsType} from "../c2-bll/cardsInitialState";
-import {addCardTC, getCardTC, deleteCardTC, updateCardTC} from "../c2-bll/cardsThunk";
-import {useParams, NavLink} from "react-router-dom";
+import {addCardTC, deleteCardTC, getCardTC, updateCardTC} from "../c2-bll/cardsThunk";
+import {useParams} from "react-router-dom";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
 import {searchPanelInitialStateType} from "../../p3-search-panel/s2-bll/searchPanelInitialState";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
-import {
-    setMaxCardsCount,
-    setMaxGrade,
-    setMinCardsCount,
-    setMinGrade
-} from "../../p3-search-panel/s2-bll/searchPanelActions";
-import {addPackTC, deletePackTC, packTC, updatePackTC} from "../../p1-packs/p2-bll/packsThunk";
+import {setMaxGrade, setMinGrade} from "../../p3-search-panel/s2-bll/searchPanelActions";
 import {SearchPanel} from "../../p3-search-panel/s1-ui/SearchPanel";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
-import {UpdateCardDataType} from "../c3-dall/CardsAPI";
 
 
 type CardsPropsType = {}
@@ -65,8 +58,8 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(deleteCardTC(cardId));
     }
 
-    const onUpdateCard = (cardId: string, newQuestion: string,cardAnswer:string) => {
-        dispatch(updateCardTC({_id: cardId, question: newQuestion,answer:cardAnswer}))
+    const onUpdateCard = (cardId: string, newQuestion: string, cardAnswer: string) => {
+        dispatch(updateCardTC({_id: cardId, question: newQuestion, answer: cardAnswer}))
     }
 
     const columns = [
@@ -148,7 +141,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
 type ModalAndDeleteType = {
     card: CardsType
     deleteCard: (cardId: string) => void
-    updateCard: (cardId: string, newQuestion: string, cardAnswer:string) => void
+    updateCard: (cardId: string, newQuestion: string, cardAnswer: string) => void
 
 }
 
@@ -169,7 +162,7 @@ export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
         setUpdateOpen(false);
     }
     const onUpdateSubmit = () => {
-        updateCard(card._id, cardName,cardAnswer);
+        updateCard(card._id, cardName, cardAnswer);
 
 
         onUpdateClose();
@@ -195,13 +188,17 @@ export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
             </Modal>
             <Modal title={'Введите другой вопрос'} onClose={onUpdateClose} isOpen={isUpdateOpen}>
                 <div>
-                    <label> редактировать вопрос
-                        <input type='text' value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
-                    </label>
+                    <div>
+                        <label> редактировать вопрос
+                            <input type='text' value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                        </label>
+                    </div>
 
-                    <label> редактировать ответ
-                        <input type='text' value={cardAnswer} onChange={e => setCardAnswer(e.currentTarget.value)}/>
-                    </label>
+                    <div>
+                        <label> редактировать ответ
+                            <input type='text' value={cardAnswer} onChange={e => setCardAnswer(e.currentTarget.value)}/>
+                        </label>
+                    </div>
                 </div>
                 <button onClick={onUpdateSubmit}>Update</button>
 

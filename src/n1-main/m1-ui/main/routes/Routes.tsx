@@ -12,6 +12,7 @@ import {RequestStatusType} from "../../../m2-bll/b1-main/mainInitialState";
 import Preloader from "../../../../n0-common/c1-ui/preloader/Preloader";
 import {Cards} from "../../../../n2-features/f2-packs_cards/p2-cards/c1-ui/Cards";
 import {Learn} from "../../../../n2-features/f3-learn_grade/l1-learn/l1-ui/Learn";
+import { Breadcrumb } from "antd";
 
 export const PATH = {
     LOGIN: '/login',
@@ -27,7 +28,7 @@ export const PATH = {
 export const Routes = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     return (
-        <div>
+        <div style={{backgroundColor:'#fff',padding: '24px'}}>
             {status === 'loading' && <Preloader/>}
             <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN}/>}/>
             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>

@@ -5,7 +5,7 @@ import {Menu} from "antd";
 
 export const DevHeader = () => {
     return (
-        <Menu theme="dark" mode="horizontal"  >
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} >
             <Menu.Item key='1'>
                 <NavLink to={PATH.LOGIN} style={{padding: '10px'}}>login </NavLink>
             </Menu.Item>
