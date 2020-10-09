@@ -30,6 +30,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const {id} = useParams();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [cardName, setCardName] = useState<string>('');
+    const [cardAnswer, setCardAnswer] = useState<string>('');
     //modal
     const onModal = () => {
         setIsOpen(true);
@@ -42,8 +43,8 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(addCardTC(
             {
                 cardsPack_id: id,
-                question: cardName
-
+                question: cardName,
+                answer: cardAnswer
             }
         ));
         onClose();
@@ -119,7 +120,16 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
 
             <Modal title={'Введите вопрос'} onClose={onClose} isOpen={isOpen}>
-                <input type="text" value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                <div>
+                    <label> введите вопрос
+                        <input type="text" value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                    </label>
+                </div>
+                <div>
+                    <label> введите ответ
+                        <input type="text" value={cardAnswer} onChange={e => setCardAnswer(e.currentTarget.value)}/>
+                    </label>
+                </div>
                 <button onClick={onSubmit}>создать</button>
             </Modal>
 
