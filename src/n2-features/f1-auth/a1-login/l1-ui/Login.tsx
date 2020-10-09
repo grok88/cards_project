@@ -1,6 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
+import { Button } from "antd";
 
 type LoginPropsType = {
     email: string;
@@ -36,7 +37,7 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
             <div>
                 <NavLink to={PATH.RESTORE}>Востановить пароль?</NavLink>
             </div>
-            <button onClick={onLogin}>Sign in</button>
+            <Button onClick={onLogin}>Sign in</Button>
             <div>
                 <NavLink to={PATH.REGISTER}>Регистрация</NavLink>
             </div>

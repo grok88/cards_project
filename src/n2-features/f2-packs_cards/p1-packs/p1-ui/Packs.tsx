@@ -16,7 +16,6 @@ import {SortInitialStateType} from "../../../../n0-common/c1-ui/sort/s2-bll/Sort
 import {sortByField} from "../../../../n0-common/c1-ui/sort/s2-bll/SortActions";
 import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 import {setMaxCardsCount, setMinCardsCount} from "../../p3-search-panel/s2-bll/searchPanelActions";
-import {LOGIN_IN} from "../../../f1-auth/a1-login/l2-bll/loginActions";
 
 type PacksPropsType = {}
 
@@ -154,7 +153,8 @@ export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
 
             />
 
-            <Pagination current={page as number}
+            <Pagination style={{padding: '20px'}}
+                current={page as number}
                         defaultCurrent={1}
                         onChange={onChangePage}
                         pageSize={pageCount as number}

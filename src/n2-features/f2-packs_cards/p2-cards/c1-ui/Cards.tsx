@@ -135,7 +135,8 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
 
             <Table<CardsType> dataSource={cards} columns={columns} pagination={false} rowKey={'_id'}/>
 
-            <Pagination current={page as number}
+            <Pagination style={{padding: '20px'}}
+                        current={page as number}
                         defaultCurrent={1}
                         onChange={onChangePage}
                         pageSize={pageCount as number}
