@@ -37,6 +37,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
     const {id} = useParams();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [cardName, setCardName] = useState<string>('');
+    const [cardAnswer, setCardAnswer] = useState<string>('');
     //modal
     const onModal = () => {
         setIsOpen(true);
@@ -49,8 +50,8 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(addCardTC(
             {
                 cardsPack_id: id,
-                question: cardName
-
+                question: cardName,
+                answer: cardAnswer
             }
         ));
         onClose();
@@ -65,8 +66,8 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
         dispatch(deleteCardTC(cardId));
     }
 
-    const onUpdateCard = (cardId: string, newQuestion: string,cardAnswer:string) => {
-        dispatch(updateCardTC({_id: cardId, question: newQuestion,answer:cardAnswer}))
+    const onUpdateCard = (cardId: string, newQuestion: string, cardAnswer: string) => {
+        dispatch(updateCardTC({_id: cardId, question: newQuestion, answer: cardAnswer}))
     }
 
     const columns = [
@@ -126,7 +127,16 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
             {/*<Status title={'Packs'} status={status} error={error}/>*/}
 
             <Modal title={'Введите вопрос'} onClose={onClose} isOpen={isOpen}>
-                <input type="text" value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                <div>
+                    <label> введите вопрос
+                        <input type="text" value={cardName} onChange={e => setCardName(e.currentTarget.value)}/>
+                    </label>
+                </div>
+                <div>
+                    <label> введите ответ
+                        <input type="text" value={cardAnswer} onChange={e => setCardAnswer(e.currentTarget.value)}/>
+                    </label>
+                </div>
                 <button onClick={onSubmit}>создать</button>
             </Modal>
 
@@ -148,7 +158,7 @@ export const Cards: React.FC<CardsPropsType> = React.memo((props) => {
 type ModalAndDeleteType = {
     card: CardsType
     deleteCard: (cardId: string) => void
-    updateCard: (cardId: string, newQuestion: string, cardAnswer:string) => void
+    updateCard: (cardId: string, newQuestion: string, cardAnswer: string) => void
 
 }
 
@@ -169,7 +179,7 @@ export const ModalDeleteAndUpdate: React.FC<ModalAndDeleteType> = (props) => {
         setUpdateOpen(false);
     }
     const onUpdateSubmit = () => {
-        updateCard(card._id, cardName,cardAnswer);
+        updateCard(card._id, cardName, cardAnswer);
 
 
         onUpdateClose();

@@ -4,6 +4,7 @@ import {CardsType} from "../c2-bll/cardsInitialState";
 export type AddCardDataType = {
     cardsPack_id: string,
     question: string
+    answer?:string
 }
 export type UpdateCardDataType = {
     _id: string
