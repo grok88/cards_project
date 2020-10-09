@@ -32,9 +32,7 @@ export const SearchPanel: React.FC<SearchPanelType> = React.memo((props) => {
     //     dispatch(setMaxCardsCount(val2));
     // }
     const onSearch = () => {
-        console.log(searchValue)
         dispatch(setSearchInputValue(value));
-        console.log(searchValue)
         props.onSearchSubmit(value);
         // dispatch(packTC(props.pageSize, props.currentPage, minCardsCount, maxCardsCount, value));
     }

@@ -221,10 +221,16 @@ export const Test: React.FC<ModalBTNType> = (props) => {
                 <button onClick={onUpdateSubmit}>Обновить</button>
             </Modal>
 
-            <Button onClick={onUpdateOpen}>
+            <Button onClick={onUpdateOpen} onKeyDown={(e) => {
+                if (e.key = 'Escape') {
+                    onUpdateClose();
+                }}}>
                 update
             </Button>
-            <Button onClick={onDeleteOpen} danger={true}>
+            <Button onClick={onDeleteOpen} danger={true} onKeyDown={(e) => {
+                if (e.key = 'Escape') {
+                    onDeleteClose();
+                }}}>
                 DEL
             </Button>
             <NavLink to={`/cards/${pack._id}`}>cards</NavLink>

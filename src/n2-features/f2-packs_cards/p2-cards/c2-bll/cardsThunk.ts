@@ -74,3 +74,20 @@ export const updateCardTC = (data: UpdateCardDataType, cardsPackId: string): Thu
         }
     }
 }
+export const setGradeTC = (grade:number, card_id:string, cardsPackId:string): ThunkType => {
+    return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
+        dispatch(setStatus("loading"));
+        // Запросы на API
+        try {
+            const res = await CardsAPI.setGrade(grade,card_id );
+            // dispatch(getCardTC(cardsPackId));
+            dispatch(setStatus("succeeded"));
+        } catch (e) {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console');
+            dispatch(setError(error));
+            dispatch(setStatus("failed"));
+        }
+    }
+}

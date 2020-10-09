@@ -24,8 +24,19 @@ export type ResponseCardsDataType = {
 //cardsPackId: string, min: number, max: number, page: number, pageCount: number,answer:string
 //return axiosInstance.get<ResponseCardsDataType>(`/cards/card?cardsPack_id=${cardsPackId}&min=${min}&max=${max}&page=${page}&pageCount=${pageCount}&cardAnswer=${answer}`);
 
+
+type ResponseSetGradeType = {
+    updatedGrade: {
+        _id: string;
+        cardsPack_id: string;
+        card_id: string;
+        user_id: string;
+        grade: number;
+        shots: number;
+    }
+}
 export const CardsAPI = {
-    getCards(cardsPackId: string, max: number,page: number, pageCount: number,cardQuestion:string,min:number) {
+    getCards(cardsPackId: string, max: number, page: number, pageCount: number, cardQuestion: string, min: number) {
         return axiosInstance.get<ResponseCardsDataType>(`/cards/card?cardsPack_id=${cardsPackId}&max=${max}&min=${min}&page=${page}&pageCount=${pageCount}&cardQuestion=${cardQuestion}`);
     },
     deleteCard(cardId: string) {
@@ -36,5 +47,8 @@ export const CardsAPI = {
     },
     updateCard(data: UpdateCardDataType) {
         return axiosInstance.put(`/cards/card`, data);
+    },
+    setGrade(grade: number, card_id: string) {
+        return axiosInstance.put(`/cards/grade`, {grade, card_id});
     }
 }
