@@ -27,9 +27,9 @@ export const DevHeader = () => {
             <Menu.Item key='7'>
                 <NavLink to={PATH.CARDS} style={{padding: '10px'}}>cards</NavLink>
             </Menu.Item>
-            <Menu.Item key='8'>
-                <NavLink to={PATH.LEARN} style={{padding: '10px'}}>learn</NavLink>
-            </Menu.Item>
+            {/*<Menu.Item key='8'>*/}
+            {/*    <NavLink to={PATH.LEARN} style={{padding: '10px'}}>learn</NavLink>*/}
+            {/*</Menu.Item>*/}
         </Menu>
     );
 }

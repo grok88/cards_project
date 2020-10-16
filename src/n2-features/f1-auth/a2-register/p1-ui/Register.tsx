@@ -41,7 +41,6 @@ export const Register: React.FC<RegisterPropsType>= React.memo((props) => {
             return (
             <div style={{
                 width: '40%',
-                // outline: '1px solid red',
                 margin: '0 auto',
                 display: 'flex',
                 flexDirection: "column",

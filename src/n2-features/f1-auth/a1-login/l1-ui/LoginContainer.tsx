@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {Login} from "./Login";
+import {Login, LoginParamsType} from "./Login";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../l2-bll/loginThunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
@@ -8,7 +8,6 @@ import {PATH} from "../../../../n1-main/m1-ui/main/routes/Routes";
 import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import {Status} from "../../../../n0-common/c1-ui/status/Status";
 import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainActions";
-import {Modal} from "../../../../n0-common/c1-ui/modal/m1-ui/Modal";
 
 type LoginContainerPropsType = {}
 
@@ -21,9 +20,9 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
 
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState<string>('grok88@tut.by');
-    const [password, setPassword] = useState<string>('alexgor88');
-    const [remember, setRemember] = useState<boolean>(false);
+    // const [email, setEmail] = useState<string>('grok88@tut.by');
+    // const [password, setPassword] = useState<string>('alexgor88');
+    // const [remember, setRemember] = useState<boolean>(false);
     const [flag, setFlag] = useState<boolean>(false);
 
     const [firstVisited, setFirstVisited] = useState<boolean>(true);
@@ -39,9 +38,10 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
         }
     }, [firstVisited, setFirstVisited]);
 
-    const onLogin = useCallback(() => {
-        dispatch(loginTC({email, password, rememberMe: remember}));
-    }, [email, password, remember]);
+    const onLogin = useCallback((value: LoginParamsType) => {
+        const {email, password, rememberMe} = value;
+        dispatch(loginTC({email, password, rememberMe}));
+    }, []);
 
 
     if (isLoginIn && redirect && (status === 'succeeded')) {
@@ -57,7 +57,6 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
     return (
         <div style={{
             width: '40%',
-            // outline: '1px solid red',
             margin: '0 auto',
             display: 'flex',
             flexDirection: "column",
@@ -65,8 +64,7 @@ export const LoginContainer: React.FC<LoginContainerPropsType> = React.memo(() =
             alignItems: 'center'
         }}>
             <Status title={'Login'} status={status} error={error}/>
-            <Login email={email} setEmail={setEmail} password={password} setPassword={setPassword} checked={remember}
-                   setChecked={setRemember} onLogin={onLogin}/>
+            <Login onLogin={onLogin}/>
         </div>
     );
 });
