@@ -1,0 +1,10 @@
+.regInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.restore,.signUp{
+    margin: 20px 0;
+    font-size: 1em;
+    text-align: center;
+}

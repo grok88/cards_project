@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {addPackTC, deletePackTC, packTC, updatePackTC} from "../p2-bll/packsThunk";
 import {AppRootStateType} from "../../../../n1-main/m2-bll/store";
 import {PacksInitialStateType, PacksType} from "../p2-bll/packsInitialState";
-import {RequestStatusType} from "../../../../n1-main/m2-bll/b1-main/mainInitialState";
 import {NavLink} from "react-router-dom";
 import {setCurrentPage, setPageSize} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationActions";
 import {PaginationInitialStateType} from "../../../../n0-common/c1-ui/pagination/p2_bll/paginationInitialState";
@@ -22,8 +21,8 @@ type PacksPropsType = {}
 export const Packs: React.FC<PacksPropsType> = React.memo((props) => {
 
     const {cardPacks, cardPacksTotalCount, page, pageCount} = useSelector<AppRootStateType, PacksInitialStateType>(state => state.packs);
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
-    const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
+    // const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
+    // const error = useSelector<AppRootStateType, null | string>(state => state.main.error);
     const {currentPage, pageSize} = useSelector<AppRootStateType, PaginationInitialStateType>(state => state.pagination);
     const {searchValue, minCardsCount, maxCardsCount} = useSelector<AppRootStateType, searchPanelInitialStateType>(state => state.search);
     const {sort} = useSelector<AppRootStateType, SortInitialStateType>(state => state.sort);
