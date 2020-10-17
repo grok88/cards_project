@@ -5,7 +5,7 @@ import {Menu} from "antd";
 
 export const DevHeader = () => {
     return (
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} >
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
             <Menu.Item key='1'>
                 <NavLink to={PATH.LOGIN} style={{padding: '10px'}}>login </NavLink>
             </Menu.Item>
@@ -23,6 +23,9 @@ export const DevHeader = () => {
             </Menu.Item>
             <Menu.Item key='6'>
                 <NavLink to={PATH.PACKS} style={{padding: '10px'}}>packs</NavLink>
+            </Menu.Item>
+            <Menu.Item key='7'>
+                <NavLink to={PATH.FILES} style={{padding: '10px'}}>files</NavLink>
             </Menu.Item>
             {/*<Menu.Item key='7'>*/}
             {/*    <NavLink to={PATH.CARDS} style={{padding: '10px'}}>cards</NavLink>*/}

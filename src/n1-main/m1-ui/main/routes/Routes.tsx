@@ -12,6 +12,7 @@ import {RequestStatusType} from "../../../m2-bll/b1-main/mainInitialState";
 import Preloader from "../../../../n0-common/c1-ui/preloader/Preloader";
 import {Cards} from "../../../../n2-features/f2-packs_cards/p2-cards/c1-ui/Cards";
 import {Learn} from "../../../../n2-features/f3-learn_grade/l1-learn/l1-ui/Learn";
+import {Files} from "../../../../n2-features/f4-files/f1-ui/Files";
 
 export const PATH = {
     LOGIN: '/login',
@@ -22,7 +23,7 @@ export const PATH = {
     PACKS: '/packs',
     CARDS: '/cards/:id?',
     LEARN: '/learn/:packId?',
-
+    FILES: '/files'
 }
 export const Routes = () => {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
@@ -38,6 +39,7 @@ export const Routes = () => {
             <Route path={PATH.PACKS} render={() => <Packs/>}/>
             <Route path={PATH.CARDS} render={() => <Cards/>}/>
             <Route path={PATH.LEARN} render={() => <Learn/>}/>
+            <Route path={PATH.FILES} render={() => <Files/>}/>
         </div>
     );
 }

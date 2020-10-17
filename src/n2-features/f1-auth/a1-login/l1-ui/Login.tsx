@@ -56,11 +56,6 @@ const tailLayout = {
     wrapperCol: {offset: 8, span: 16},
 };
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-
-};
-
 export const Login: React.FC<LoginPropsType> = React.memo((props) => {
 
     const {onLogin} = props;
@@ -78,8 +73,11 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
             // formik.resetForm();
         },
     });
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
 
-
+    };
+    console.log(formik.errors.password)
     return (
         <Row>
             <Col span={24}>
@@ -113,27 +111,13 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
                         >
                             <Input type="text" placeholder={'enter you email'} {...formik.getFieldProps('email')} />
                         </Form.Item>
-                        <Form.Item
+                        <Form.Item style={{marginBottom:0}}
                             label="Password"
-                            name="password"
-                            rules={[
-                                // {
-                                //     type: 'string',
-                                //     message: formik.touched.password && formik.errors.password ? formik.errors.password : "",
-                                // },
-                                {
-                                    required: true,
-                                    message: formik.touched.password && formik.errors.password ? formik.errors.password : "",
-                                },
-                            ]}
+                            // name="password"
                             // rules={[
                             //     {
-                            //         type: 'password',
-                            //         message: formik.touched.password && formik.errors.password ? formik.errors.password : "",
-                            //     },
-                            //     {
                             //         required: true,
-                            //         message: formik.touched.password && formik.errors.password ? formik.errors.password : "",
+                            //         // message: formik.touched.password && formik.errors.password ? formik.errors.password : "",
                             //     },
                             // ]}
                             // help={formik.touched.password && formik.errors.password ? formik.errors.password : ""}
@@ -141,6 +125,7 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
                         >
                             <Input.Password type="password"
                                             placeholder={'enter you password'} {...formik.getFieldProps('password')}/>
+                            {formik.errors.password ? <div style={{color:'red'}}>{formik.errors.password}</div> : null}
 
                         </Form.Item>
                         <Form.Item style={{marginBottom: 'none'}}
