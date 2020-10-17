@@ -18,21 +18,23 @@ export const ProfileContainer: React.FC<ProfileContainerPropsType> = React.memo(
 
         useEffect(() => {
             if (!isLoginIn) {
-                handleAuth()
+                handleAuth();
             }
+            // return () => {
+            //     clearTimeout(id);
+            // }
         }, []);
 
         const handleAuth = async () => {
             await dispatch(authMeTC());
-            setTimeout(() => {
-                setFlag(true)
-            }, 2000)
+            let id = setTimeout(() => {
+                setFlag(true);
+            }, 2000);
         }
 
         const logOut = useCallback(() => {
             dispatch(logOutTC());
         }, []);
-
 
 
         if (!isLoginIn && flag) {

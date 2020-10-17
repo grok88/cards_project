@@ -31,12 +31,12 @@ export type LoginErrorType = {
 //Formik
 const validate = (values: LoginParamsType) => {
     const errors: LoginErrorType = {};
-
-    if (!values.password) {
-        errors.password = 'Required';
-    } else if (values.password.length < 7) {
-        errors.password = 'Must be 7 characters or more';
-    }
+    //
+    // if (!values.password) {
+    //     errors.password = 'Required';
+    // } else if (values.password.length < 7) {
+    //     errors.password = 'Must be 7 characters or more';
+    // }
 
     if (!values.email) {
         errors.email = 'Required';
@@ -74,10 +74,10 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
         },
     });
     const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+        // console.log('Failed:', errorInfo);
 
     };
-    console.log(formik.errors.password)
+
     return (
         <Row>
             <Col span={24}>
@@ -92,40 +92,55 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
                         <Form.Item label="Email"
                                    name="email"
                                    rules={[
-                                       //     {
-                                       //     required: true,
-                                       //     message: 'Please input your email!',
-                                       // }
-                                       {
-                                           type: 'email',
-                                           message: formik.touched.email && formik.errors.email ? formik.errors.email : "",
-                                       },
+                                       // {
+                                       //     type: 'email',
+                                       //     // message: (formik.touched.email && formik.errors.email) ? formik.errors.email : "",
+                                       // },
                                        {
                                            required: true,
-                                           message: formik.touched.email && formik.errors.email ? formik.errors.email : "",
+                                           message: ' '
+                                           // message: (formik.touched.email && formik.errors.email) ? formik.errors.email : "",
                                        },
+                                       {
+                                           validator: (formItemInfo, inputValue) => {
+                                               // console.log(formItemInfo, inputValue);
+                                               if (!inputValue.length) return Promise.reject('email is required');
+                                               if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(inputValue)) return Promise.reject('Invalid email address');
+
+                                               else return Promise.resolve();
+                                           }
+                                       }
                                    ]}
                             // help={formik.touched.email && formik.errors.email ? formik.errors.email : ""}
                             // validateStatus={formik.touched.email && formik.errors.email ? "error" : "success"}
-                            // hasFeedback
+                                   hasFeedback
                         >
                             <Input type="text" placeholder={'enter you email'} {...formik.getFieldProps('email')} />
                         </Form.Item>
-                        <Form.Item style={{marginBottom:0}}
-                            label="Password"
-                            // name="password"
-                            // rules={[
-                            //     {
-                            //         required: true,
-                            //         // message: formik.touched.password && formik.errors.password ? formik.errors.password : "",
-                            //     },
-                            // ]}
-                            // help={formik.touched.password && formik.errors.password ? formik.errors.password : ""}
-                            // validateStatus={formik.touched.password && formik.errors.password ? "error" : "success"}
+                        <Form.Item style={{marginBottom: 0}}
+                                   label="Password"
+                                   name="password"
+                                   rules={[
+                                       {
+                                           required: true,
+                                           // message: (formik.touched.password && formik.errors.password) ? formik.errors.password : "",
+                                           message: ' '
+                                       },
+                                       {
+                                           validator: (formItemInfo, inputValue) => {
+                                               // console.log(formItemInfo, inputValue);
+                                               if (!inputValue.length) return Promise.reject('password is required');
+                                               if (inputValue.length < 7) return Promise.reject('Must be 7 characters or more');
+
+                                               else return Promise.resolve();
+                                           }
+                                       }
+                                   ]}
+                                   hasFeedback
                         >
                             <Input.Password type="password"
                                             placeholder={'enter you password'} {...formik.getFieldProps('password')}/>
-                            {formik.errors.password ? <div style={{color:'red'}}>{formik.errors.password}</div> : null}
+                            {/*{formik.errors.password ? <div style={{color:'red'}}>{formik.errors.password}</div> : null}*/}
 
                         </Form.Item>
                         <Form.Item style={{marginBottom: 'none'}}
@@ -136,17 +151,17 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
                             <Checkbox  {...formik.getFieldProps('rememberMe')}/>
                         </Form.Item>
 
-                      <div className={styles.regInfo}>
-                          <Form.Item>
-                              <Button htmlType="submit">Sign in</Button>
-                          </Form.Item>
-                          <div>
-                              <NavLink to={PATH.RESTORE} className={styles.restore}>Востановить пароль?</NavLink>
-                          </div>
-                          <div>
-                              <NavLink to={PATH.REGISTER} className={styles.signUp}>Регистрация</NavLink>
-                          </div>
-                      </div>
+                        <div className={styles.regInfo}>
+                            <Form.Item>
+                                <Button htmlType="submit">Sign in</Button>
+                            </Form.Item>
+                            <div>
+                                <NavLink to={PATH.RESTORE} className={styles.restore}>Востановить пароль?</NavLink>
+                            </div>
+                            <div>
+                                <NavLink to={PATH.REGISTER} className={styles.signUp}>Регистрация</NavLink>
+                            </div>
+                        </div>
                     </Form>
                 </div>
             </Col>
