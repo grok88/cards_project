@@ -4,14 +4,33 @@ import {Button} from "antd";
 
 type FilesPropsType = {}
 
+export const writeFile = (fileName:
+    // string
+                              any
+                          , value: string) => {
+    const link = document.createElement("a");
+    link.href = "data:text/plain;content-disposition=attachment;filename=file," + value;
+    link.download = fileName;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
 export const Files: React.FC<FilesPropsType> = (props) => {
 
     const [fileName, setFileName] = useState<File | null>(null);
+    // url file
     const [fileUrl, setFileUrl] = useState();
+    // read file contain
     const [code, setCode] = useState<boolean>(false);
+    // Отображение текстового файла
     const [file64, setFile64] = useState();
+
     const [base64, setBase64] = useState<boolean>(true);
-    console.log(code)
+    // textAREA flux
+    const [text, setText] = useState<string>('');
+
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Defined file size
@@ -42,9 +61,9 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                     setFile64(reader.result)
                 }
             }
-            if(base64){
+            if (base64) {
 
-            }else {
+            } else {
                 reader.readAsText(newFile);
             }
         }
@@ -57,13 +76,13 @@ export const Files: React.FC<FilesPropsType> = (props) => {
     }
 
     return <div>
-        <div style={{outline: '1px solid red', padding:'10px'}}>
+        <div style={{outline: '1px solid red', padding: '10px'}}>
             <h2>Only simple example - choose file - not upload</h2>
             <div>
                 <input type="file" accept='.jpg, .jpeg, .png,' multiple/>
             </div>
         </div>
-        <div className={styles.info} style={{outline: '1px solid red',padding:'10px'}}>
+        <div className={styles.info} style={{outline: '1px solid red', padding: '10px'}}>
             <h2>File info</h2>
             <div>
                 <div>
@@ -95,13 +114,19 @@ export const Files: React.FC<FilesPropsType> = (props) => {
             <Button onClick={() => inputRef && inputRef.current && inputRef.current.click()}>Add File</Button>
 
         </div>
-        <div style={{outline: '1px solid red', padding:'10px'}}>
+        <div style={{outline: '1px solid red', padding: '10px'}}>
             <h2>File actions</h2>
+            <div>
+                <textarea value={text} onChange={(e) => setText(e.currentTarget.value)}></textarea>
+            </div>
             <div>
                 <b>Text file contain:</b>
                 <pre>
                     {file64}
                 </pre>
+            </div>
+            <div>
+                <button onClick={() => {writeFile(fileName&&fileName.name, text + '\r\n' + file64)}}>Save</button>
             </div>
         </div>
     </div>
