@@ -38,11 +38,11 @@ const validate = (values: LoginParamsType) => {
     //     errors.password = 'Must be 7 characters or more';
     // }
 
-    if (!values.email) {
-        errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
-    }
+    // if (!values.email) {
+    //     errors.email = 'Required';
+    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    //     errors.email = 'Invalid email address';
+    // }
 
     return errors;
 };
@@ -67,7 +67,7 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
             password: '',
             rememberMe: false
         },
-        validate,
+        // validate,
         onSubmit: values => {
             onLogin(values);
             // formik.resetForm();
@@ -75,7 +75,6 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
     });
     const onFinishFailed = (errorInfo: any) => {
         // console.log('Failed:', errorInfo);
-
     };
 
     return (
