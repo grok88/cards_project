@@ -1,13 +1,14 @@
 import React, {ChangeEvent, useRef, useState} from "react";
 import styles from './Files.module.css';
 import {Button} from "antd";
+import axios from 'axios';
 
 type FilesPropsType = {}
 
 export const writeFile = (fileName:
-    // string
+                              // string
                               any
-                          , value: string) => {
+    , value: string) => {
     const link = document.createElement("a");
     link.href = "data:text/plain;content-disposition=attachment;filename=file," + value;
     link.download = fileName;
@@ -30,6 +31,9 @@ export const Files: React.FC<FilesPropsType> = (props) => {
     const [base64, setBase64] = useState<boolean>(true);
     // textAREA flux
     const [text, setText] = useState<string>('');
+    // для отправки файла на сервер
+    const [fileData, setFileData] = useState();
+    const [test, setTest] = useState();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,10 +47,51 @@ export const Files: React.FC<FilesPropsType> = (props) => {
             return (n / 1048576).toFixed(2) + 'MB';
         }
     };
+    // для отправки файла на сервер
+    const send = () => {
+        axios.post('https://dry-forest-56016.herokuapp.com/file', fileData);
+    }
+    // для получения файла с сервера
+
+    const getFile = (url: string, fileName: string) => {
+        axios.get(url, {responseType: 'blob'}) // настройки запроса - 'blob' - типо объект, кот является родоначальником всех файлов в JS
+            .then(({data}) => {
+
+                const blob = new Blob([data], {type: 'image/jpeg'});
+
+                // создаем ссылку на file
+                const dowloadUrl = window.URL.createObjectURL(blob);
+                setFileUrl(dowloadUrl);
+
+                // создаем link
+                const link = document.createElement('a');
+
+                // присваиваем href
+                link.href = dowloadUrl;
+
+                //добавляем атрибуты тегу - загрузочный , имя файла
+                link.setAttribute('download', fileName);
+
+                // ..скрываем link
+                link.style.display = 'none';
+
+                // добавляем
+                document.body.appendChild(link);
+
+                //click
+                link.click();
+
+                //delete
+                document.body.removeChild(link);
+            });
+    }
 
     const upload = (e: ChangeEvent<HTMLInputElement>) => {
+
         const reader = new FileReader();
-        console.log(e.target)
+        // FormData - Для отправки на сервер файла
+        const formData = new FormData();
+
         const newFile = e.target.files && e.target.files[0];
 
         if (newFile) {
@@ -55,6 +100,10 @@ export const Files: React.FC<FilesPropsType> = (props) => {
             //url
             setFileUrl(window.URL.createObjectURL(newFile));
 
+            // ..отправка файла на сервер
+            formData.append('myFile', newFile, newFile.name);
+            setFileData(formData);
+
             //read file
             if (code) {
                 reader.onload = () => {
@@ -62,17 +111,11 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                 }
             }
             if (base64) {
-
+                reader.readAsDataURL(newFile);
             } else {
                 reader.readAsText(newFile);
             }
         }
-
-        console.log(newFile)
-        console.log('upload')
-        console.log(inputRef)
-        console.log(inputRef.current)
-        console.log(inputRef && inputRef.current && inputRef.current.click())
     }
 
     return <div>
@@ -99,6 +142,7 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                 </div>
             </div>
             <div>
+                {test && test}
                 <img src={fileUrl} alt="file"/>
                 <div><b>name:</b>{fileName && fileName.name}</div>
                 <div><b>size:</b>{fileName && returnFileSize(fileName.size)}</div>
@@ -126,7 +170,15 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                 </pre>
             </div>
             <div>
-                <button onClick={() => {writeFile(fileName&&fileName.name, text + '\r\n' + file64)}}>Save</button>
+                <button onClick={() => {
+                    writeFile(fileName && fileName.name, text + '\r\n' + file64)
+                }}>Save
+                </button>
+                <button onClick={send}>Send</button>
+                <button onClick={() => {
+                    getFile('https://dry-forest-56016.herokuapp.com/file', 'newFile.jpg')
+                }}>getFile
+                </button>
             </div>
         </div>
     </div>
