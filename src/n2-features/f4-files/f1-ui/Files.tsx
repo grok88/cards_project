@@ -33,7 +33,6 @@ export const Files: React.FC<FilesPropsType> = (props) => {
     const [text, setText] = useState<string>('');
     // для отправки файла на сервер
     const [fileData, setFileData] = useState();
-    const [test, setTest] = useState();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -142,7 +141,6 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                 </div>
             </div>
             <div>
-                {test && test}
                 <img src={fileUrl} alt="file"/>
                 <div><b>name:</b>{fileName && fileName.name}</div>
                 <div><b>size:</b>{fileName && returnFileSize(fileName.size)}</div>

@@ -18,7 +18,7 @@ export type ResponseDataType = {
     isAdmin: boolean;
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
-
+    token:string;
     error: string;
 }
 
