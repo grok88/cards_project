@@ -2,6 +2,7 @@ import React, {ChangeEvent, useRef, useState} from "react";
 import styles from './Files.module.css';
 import {Button} from "antd";
 import axios from 'axios';
+import {Video} from "./video/v1-ui/Video";
 
 type FilesPropsType = {}
 
@@ -141,7 +142,7 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                 </div>
             </div>
             <div>
-                <img src={fileUrl} alt="file"/>
+                <img src={fileUrl} alt="file" width={300}/>
                 <div><b>name:</b>{fileName && fileName.name}</div>
                 <div><b>size:</b>{fileName && returnFileSize(fileName.size)}</div>
                 <div><b>last modified:</b>{fileName && new Date(fileName.lastModified).toString()}</div>
@@ -151,7 +152,7 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                    ref={inputRef}
                    onChange={upload}
                    style={{display: 'none'}}
-                   accept='.jpg, .jpeg, .png ,.txt'
+                   accept='.jpg, .jpeg, .png ,.txt,.mp3, .mp4'
             />
             <Button onClick={() => inputRef && inputRef.current && inputRef.current.click()}>Add File</Button>
 
@@ -178,6 +179,7 @@ export const Files: React.FC<FilesPropsType> = (props) => {
                 }}>getFile
                 </button>
             </div>
+            <Video url={fileUrl}/>
         </div>
     </div>
 }

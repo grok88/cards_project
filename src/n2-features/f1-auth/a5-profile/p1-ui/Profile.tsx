@@ -1,10 +1,8 @@
-import React, {ChangeEvent, useRef, useState} from "react";
+import React, {ChangeEvent, useRef} from "react";
 import {ResponseDataType} from "../../a1-login/l3-dal/LoginAPI";
 import anonym from './anonim.jpg'
 import {Button} from "antd";
-import {axiosInstance} from "../../../../n1-main/m3-dal/instance";
 import {useDispatch} from "react-redux";
-import {setUser} from "../p2-bll/profileActions";
 import {setImg} from "../p2-bll/profileThunk";
 
 type ProfilePropsType = {
@@ -25,11 +23,12 @@ export const Profile: React.FC<ProfilePropsType> = React.memo((props) => {
 
         if (newFile) {
             reader.onload = () => {
-               dispatch(setImg( {
-                   token: props.user && props.user.token,
-                   avatar: reader.result,
-                   name: props.user && props.user.name
-               }))
+                const data = {
+                    token: props.user && props.user.token,
+                    avatar: reader.result,
+                    name: props.user && props.user.name
+                }
+                dispatch(setImg(data));
             }
             // ..перевод в base64
             reader.readAsDataURL(newFile);
@@ -50,7 +49,7 @@ export const Profile: React.FC<ProfilePropsType> = React.memo((props) => {
                     />
                     <Button onClick={() => {
                         inputRef && inputRef.current && inputRef.current.click()
-                    }}>ChangeAvator</Button>
+                    }}>ChangeAvatar</Button>
                 </div>
                 <div>
                     <p>name:{props.user?.name}</p>
