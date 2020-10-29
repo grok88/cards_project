@@ -6,7 +6,6 @@ import {registerIn} from "./registerActions";
 import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainActions";
 
 
-
 export const registerTC = (data: RegisterDataType): ThunkType => {
     return async (dispatch: ThunkDispatch<AppRootStateType, unknown, SWActionType>) => {
         dispatch(setStatus("loading"));

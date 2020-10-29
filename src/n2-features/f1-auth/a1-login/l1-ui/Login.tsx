@@ -164,8 +164,6 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
                     </Form>
                 </div>
             </Col>
-
         </Row>
-
     );
 });
