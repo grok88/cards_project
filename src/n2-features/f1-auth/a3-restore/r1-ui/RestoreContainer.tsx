@@ -15,7 +15,7 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.main.status);
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState<string>('grok88@tut.by');
+    // const [email, setEmail] = useState<string>('grok88@tut.by');
 
     const [firstVisited, setFirstVisited] = useState<boolean>(true);
 
@@ -27,20 +27,18 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
         }
     }, [firstVisited, setFirstVisited]);
 
-    const onRestore = useCallback(() => {
+    const onRestore = useCallback((email:string) => {
         //thunk
         const from = "test-front-admin <ai73a@yandex.by>";
-        const message = `<div style="background-color: lime; padding: 15px">		
-	<a href='http://localhost:3000/cards_project#/set-new-password/$token$'>	
+        const message = `<div style="background-color: lime; padding: 15px">
+	<a href='http://localhost:3000/cards_project#/set-new-password/$token$'>
 	link</a></div>`
-
         dispatch(RestorePassTC({email, from, message}));
-    }, [email]);
+    }, []);
 
     return (
         <div style={{
             width: '40%',
-            // outline: '1px solid red',
             margin: '0 auto',
             display: 'flex',
             flexDirection: "column",
@@ -48,7 +46,7 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
             alignItems: 'center'
         }}>
             <Status title={'Restore'} status={status} error={error}/>
-            <Restore email={email} setEmail={setEmail} onRestore={onRestore} status={status}/>
+            <Restore  status={status} onRestore={onRestore}/>
         </div>
     );
 });
