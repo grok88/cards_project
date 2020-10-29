@@ -1,30 +1,37 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import {PATH} from "../routes/Routes";
 import {Menu} from "antd";
 
 export const DevHeader = () => {
+    const location = useLocation();
+
+    //active link from URL
+    const { pathname } = location;
+    console.log(pathname)
+
+
     return (
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-            <Menu.Item key='1'>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={[pathname]}>
+            <Menu.Item key={PATH.LOGIN}>
                 <NavLink to={PATH.LOGIN} style={{padding: '10px'}}>login </NavLink>
             </Menu.Item>
-            <Menu.Item key='2'>
+            <Menu.Item key={PATH.REGISTER}>
                 <NavLink to={PATH.REGISTER} style={{padding: '10px'}}>register</NavLink>
             </Menu.Item>
-            <Menu.Item key='3'>
+            <Menu.Item key={PATH.RESTORE}>
                 <NavLink to={PATH.RESTORE} style={{padding: '10px'}}>restore</NavLink>
             </Menu.Item>
-            <Menu.Item key='4'>
+            <Menu.Item key={PATH.SET_PASS}>
                 <NavLink to={PATH.SET_PASS} style={{padding: '10px'}}>set new pass</NavLink>
             </Menu.Item>
-            <Menu.Item key='5'>
+            <Menu.Item key={PATH.PROFILE}>
                 <NavLink to={PATH.PROFILE} style={{padding: '10px'}}>profile</NavLink>
             </Menu.Item>
-            <Menu.Item key='6'>
+            <Menu.Item key={PATH.PACKS}>
                 <NavLink to={PATH.PACKS} style={{padding: '10px'}}>packs</NavLink>
             </Menu.Item>
-            <Menu.Item key='7'>
+            <Menu.Item key={PATH.FILES}>
                 <NavLink to={PATH.FILES} style={{padding: '10px'}}>files</NavLink>
             </Menu.Item>
             {/*<Menu.Item key='7'>*/}
