@@ -8,8 +8,7 @@ export const registerReducer = (state = registerInitialState, action: registerRe
         case REGISTER_IN: { // blank
             return {
                 ...state,
-                isRegisterIn:true
-
+                isRegisterIn:action.value
             }
         }
 

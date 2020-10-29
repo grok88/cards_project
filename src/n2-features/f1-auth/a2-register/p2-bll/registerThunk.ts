@@ -11,7 +11,7 @@ export const registerTC = (data: RegisterDataType): ThunkType => {
         dispatch(setStatus("loading"));
         try {
             await RegisterAPI.register(data);
-            dispatch(registerIn());
+            dispatch(registerIn(true));
             dispatch(setStatus("succeeded"));
         } catch (e) {
             const error = e.response

@@ -10,6 +10,7 @@ import {setError, setStatus} from "../../../../n1-main/m2-bll/b1-main/mainAction
 import {useFormik} from "formik";
 import {Button, Col, Form, Input, Row} from 'antd';
 import styles from "../../a1-login/l1-ui/Login.module.css";
+import {registerIn} from "../p2-bll/registerActions";
 
 //Ant-design FORM
 const layout = {
@@ -43,6 +44,13 @@ export const Register: React.FC<RegisterPropsType> = React.memo((props) => {
             setFirstVisited(false);
         }
     }, [firstVisited, setFirstVisited]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(registerIn(false));
+            dispatch(setStatus("idle"));
+        }
+    }, [])
 
     //formik
     const formik = useFormik({
@@ -117,7 +125,7 @@ export const Register: React.FC<RegisterPropsType> = React.memo((props) => {
                                     {
                                         validator: (formItemInfo, inputValue) => {
                                             if (!inputValue.length) return Promise.reject('password is required');
-                                            if (inputValue.length < 7) return Promise.reject('Must be 7 characters or more');
+                                            if (inputValue.length <= 7) return Promise.reject('Must be 7 characters or more');
 
                                             else return Promise.resolve();
                                         }
@@ -125,7 +133,7 @@ export const Register: React.FC<RegisterPropsType> = React.memo((props) => {
                                 ]}
                                 hasFeedback
                             >
-                                <Input type="password" placeholder={'enter you password'}
+                                <Input.Password type="password" placeholder={'enter you password'}
                                        {...formik.getFieldProps('password')}/>
                             </Form.Item>
                             <div className={styles.regInfo}>

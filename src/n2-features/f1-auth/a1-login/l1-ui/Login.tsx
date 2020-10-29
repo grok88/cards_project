@@ -129,7 +129,7 @@ export const Login: React.FC<LoginPropsType> = React.memo((props) => {
                                            validator: (formItemInfo, inputValue) => {
                                                // console.log(formItemInfo, inputValue);
                                                if (!inputValue.length) return Promise.reject('password is required');
-                                               if (inputValue.length < 7) return Promise.reject('Must be 7 characters or more');
+                                               if (inputValue.length <= 7) return Promise.reject('Must be 7 characters or more');
 
                                                else return Promise.resolve();
                                            }
