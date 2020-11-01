@@ -31,7 +31,7 @@ export const RestoreContainer: React.FC<RestoreContainerPropsType> = React.memo(
         //thunk
         const from = "test-front-admin <ai73a@yandex.by>";
         const message = `<div style="background-color: lime; padding: 15px">
-	<a href='http://localhost:3000/cards_project#/set-new-password/$token$'>
+	<a href='https://grok88.github.io/cards_project#/set-new-password/$token$'>
 	link</a></div>`
         dispatch(RestorePassTC({email, from, message}));
     }, []);
