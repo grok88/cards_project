@@ -123,7 +123,7 @@ export const SetPass: React.FC<SetPassPropsType> = React.memo((props) => {
                             </Form.Item>
                             <Form.Item
                                 label="Confirm"
-                                name="passOne"
+                                name="passTwo"
                                 rules={[
                                     {
                                         required: true,
